@@ -34,7 +34,7 @@ Ngela Simamba | 6247878
 
  
 
-Timetable 
+Timetable: 
 
 The team will meet every Tuesday at 2:30pm. Due to the application being developed in a school environment where each team member has other priorities and will not be expected to work on the project every single day, we will not be having daily scrum meetings. However, team members will provide important day to day updates via the Discord chat.  
 
