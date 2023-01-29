@@ -39,3 +39,7 @@ Timetable:
 The team will meet every Tuesday at 2:30pm. Due to the application being developed in a school environment where each team member has other priorities and will not be expected to work on the project every single day, we will not be having daily scrum meetings. However, team members will provide important day to day updates via the Discord chat.  
 
 The project outline phase will be from the beginning of the project to January 31st . This will be followed by a series of sprint cycles. Each sprint will be 2 weeks, so the sprint review meetings will take place every other Tuesday at 2:30pm, with the first sprint review meeting being February 14th h and the last one being April 11th. The product closure phase will be from April 11th and to April 17th.  
+
+Product backlog, user stories and requirments are all contained within the jira backlog tracking software, accessed through the link below:
+https://cosc4p02project.atlassian.net/jira/software/projects/MM/pages
+
