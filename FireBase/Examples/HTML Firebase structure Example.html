@@ -1,0 +1,91 @@
+<!-- This file is a basic HTML site that can be used as a refrence with regards to implementing "FirebaseAccess.js" 
+
+  Note: to varify this stucture works, HTML site and "FirebaseAccess.js" will have to be hosted either through Firebase hosting or 
+  through a local server (due to permission access issues from windows' "CORS policy").
+  If you choose to use a local server I recommend to install "python 3" and then add the HTML file and "FirebaseAccess.js" 
+  into a folder and in command prompt go to that folder and run "python -m http.server".
+  Now in a browser goto "http://localhost:8000/<HTML File location (can include folders)>.html"
+      NOTE on the local server: Typically, if you update the code for a given page/script and save the changes and reload the page hosted by the local server the changes are automaticly pushed.
+      but sometimes the changes do not occure. If this is happening then clear your browser's cashe as it loading a version of the page/script from there
+-->
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <form id="form1">
+    <label for="UID">UserID:</label>
+    <input type="text" id="UID" name="UID"><br><br>
+    <label for="name">name:</label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="accessLevel">access Level:</label>
+    <input type="text" id="accessLevel" name="accessLevel"><br><br>
+    <input type="button" value="Submit" id="submit">
+  </form>
+
+
+  <button id="getUser">search id</button>
+  <button id="updateUser">update</button>
+  <button id="deleteUser">delete</button>
+  <br><br>
+  <label>Search display</label>
+  <form>
+    <label for="idDisplay">UserID:</label>
+    <label id="idDisplay" name="idDisplay"></label><br><br>
+    <label for="nameDisplay">name:</label>
+    <label id="nameDisplay" name="nameDisplay"></label><br><br>
+    <label for="accessLevelDisplay">access Level:</label>
+    <label id="accessLevelDisplay" name="accessLevelDisplay"></label><br><br>
+  </form>
+
+  <!-- Be sure to have type="module"  apart of script tag other wise importing functions from "FireBaseAccess.js will not work"-->
+  <script type="module">
+    // Note on importing the final location of "FireBaseAccess.js" is likely going to be either in the root of the git repo or in a subfolder
+    // if it is in the root of the repo then the import should be the following otherwise it should be "/<subfolder>/FirebaseAccess.js"\
+    // in the case of running a local server for varification, then leave it as is
+    import { userAdd, userSearch, userDeleter, userUpdate } from "/FirebaseAccess.js";
+    document.getElementById("submit").addEventListener('click', adder);
+    document.getElementById("getUser").addEventListener('click', searcher);
+    document.getElementById("updateUser").addEventListener('click', updater);
+    document.getElementById("deleteUser").addEventListener('click', deleteID);
+
+
+    function searcher() {
+      const uid = document.getElementById("UID").value;
+      userSearch(uid, display)
+
+    }
+
+    function adder() {
+      const UID = document.getElementById("UID").value;
+      const name = document.getElementById("name").value;
+      const al = document.getElementById("accessLevel").value;
+      userAdd(UID, name, al)
+    }
+
+    function updater() {
+      const UID = document.getElementById("UID").value;
+      const name = document.getElementById("name").value;
+      const al = document.getElementById("accessLevel").value
+      userUpdate(UID, name, al)
+    }
+
+    function deleteID() {
+      const UID = document.getElementById("UID").value;
+      userDeleter(UID)
+    }
+
+  </script>
+
+  <!-- Note that regular functions that are used with regards to Firebase operations can be either in a regular script tag or in one with 'type ="module"' -->
+  <script>
+    function display(id, data) {
+      document.getElementById("idDisplay").textContent = id;
+      document.getElementById("nameDisplay").textContent = data.Name;
+      document.getElementById("accessLevelDisplay").textContent = data.AccessLevel;
+    }
+  </script>
+</body>
+
+</html>
