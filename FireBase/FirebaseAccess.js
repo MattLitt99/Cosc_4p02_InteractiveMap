@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
-import { getDatabase, ref, set, onValue, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -19,19 +18,63 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase();
 const storage = getStorage(app);
 
-//entry functionality
-
+//image Storage functionality
 /**
- * Uses the following parameters to create an entry into the "entries" database
+ * Uploads a single image to the image storage
+ * @param {File} image image to be uploaded
+ */
+export function addImage(image) {
+	imageAdd(image)
+}
+/**
+ * fetches a image, based on supplied name (including '.png' '.jpg' or '.jpeg') and runs a callbackfunction on it
+ * @param {string} imageName 
+ * @param {function} callbackFunction a function that is expecting a http url which is the link to the requested image
+ */
+export function getImage(imageName, callbackFunction) {
+	imageGet(imageName, callbackFunction);
+}
+/**
+ * deletes a image, based on supplied name (including '.png' '.jpg' or '.jpeg')
+ * @param {string} imageName 
+ */
+export function deleteImage(imageName) {
+	Imagedelete(imageName);
+}
+
+function Imagedelete(imageName) {
+	const imgRef = ref(storage, "images/" + imageName);
+	deleteObject(imgRef).then(() => {
+		alert(imageName + " has been deleted")
+	}).catch((error) => {
+		alert("Error: " + error.code + " has occured, please try again")
+	});
+}
+
+function imageGet(imageName, callbackFunction) {
+	const imgRef = ref(storage, "images/" + imageName);
+	getDownloadURL(imgRef).then((url) => {
+		callbackFunction(url);
+	})
+}
+
+function imageAdd(image) {
+	const imageRef = ref(storage, "images/" + image.name);
+	uploadBytes(imageRef, image);
+}
+
+//entry functionality
+/**
+ * Uses the following parameters to create an entry into the "entries" database while uploading and link supplied images
  * @param {*} ID ID refrence for the entry
  * @param {string} title 
  * @param {string} date 
  * @param {string} location 
- * @param {string} photoURL
+ * @param {File[]} images
  * @param {string} discription 
  */
-export function entryAdd(ID, title, date, location, photoURL, discription) {
-	addEntry(ID, title, date, location, photoURL, discription);
+export function entryAdd(ID, title, date, location, images, discription) {
+	addEntry(ID, title, date, location, images, discription);
 }
 /**
  * Updates a single field of an entry with some new data
@@ -53,7 +96,6 @@ export function entryUpdateMany(ID, feildsToUpdate, newData) {
 		updateEntry(ID, element, newData[index]);
 	});
 }
-
 /**
  * fetches a single entry based on a supplied ID
  * @param {*} ID ID reference for the entry
@@ -69,14 +111,25 @@ export function entrySearch(ID, callbackFunction) {
 export function entryDelete(ID) {
 	deleteEntry(ID);
 }
-function addEntry(id, title, date, location, photoURL, discription) {
+
+function addEntry(id, title, date, location, images, discription) {
 	const reference = ref(database);
 	get(child(reference, 'entries/' + id)).then((snapshot) => {
 		if (snapshot.exists()) {
 			alert("Entry Id is currently in use, Please choose a new ID");
 		} else {
+
+			//upload images and create array for names (refrence)
+			const imageNames = [];
+			for (let i = 0; i < images.length; i++) {
+				const element = images[i];
+				imageNames[i] = element.name;
+				imageAdd(element);
+			}
+
+			//add data to database including imageNames
 			const reference = ref(database, 'entries/' + id);
-			set(reference, { Title: title, Date: date, Location: location, Photo: photoURL, Disc: discription }).then(() => {
+			set(reference, { Title: title, Date: date, Location: location, Images: imageNames, Disc: discription }).then(() => {
 				alert("Entry has been added");
 			}).catch((error) => {
 				alert("An error occured \n Code:" + error.code);
@@ -84,6 +137,7 @@ function addEntry(id, title, date, location, photoURL, discription) {
 		}
 	});
 }
+
 function searchEntries(id, callbackFunction) {
 	const reference = ref(database);
 	get(child(reference, 'entries/' + id)).then((snapshot) => {
@@ -151,7 +205,7 @@ export function userUpdate(UID, fieldToUpdate, newData) {
  * Updates many fields of a user with some new data
  * @param {*} ID ID refrence for the user
  * @param {string[]} feildsToUpdate 
- * @param {*} newData 
+ * @param {string[]} newData 
  */
 export function userUpdateMany(ID, feildsToUpdate, newData) {
 	feildsToUpdate.array.forEach((element, index) => {
@@ -170,12 +224,13 @@ export function userSearch(UID, callbackFunction) {
  * Uses the following parameters to create a user into the "users" database
  * @param {*} UID ID reference 
  * @param {string} name 
- * @param {string} al Access level of the user
+ * @param {string} accessLevel Access level of the user
  * @param {string} password
  */
-export function userAdd(UID, name, al, password) {
-	addUser(UID, name, al, password);
+export function userAdd(UID, name, accessLevel, password) {
+	addUser(UID, name, accessLevel, password);
 }
+
 function addUser(id, name, accessLevel, password) {
 	const reference = ref(database);
 	get(child(reference, 'users/' + id)).then((snapshot) => {

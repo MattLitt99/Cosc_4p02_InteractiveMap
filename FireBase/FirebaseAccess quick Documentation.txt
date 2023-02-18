@@ -1,0 +1,65 @@
+FirebaseAccess quick reference documentation:
+
+How to use FirebaseAccess.js:
+	add the following
+		<script type = "module">
+
+		</script>
+
+	Inside the module script add
+		import {function1,function2,...} from "/FirebaseAccess.js"
+
+		NOTE: depending on how the final project structure is done, change "/FirebaseAccess.js" to "/<subfolder>/Firebase.js"
+
+
+Avalible Functions
+	Inorder to maintain simplicity and avoid errors, a simple intermidary call functions were used (denoted with "export" with in the code).
+
+	User-related functions:
+
+		userAdd(string:UID, string:name, string:accessLevel, string:password)
+			Creates a "User" in the user database
+
+		userSearch(string:UID, function:callbackFunction)
+			Fetches a single user based on a supplied UID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
+
+		userUpdate(string:UID, string:fieldToUpdate, string:newData)
+			Updates a single feild of a user with some data
+
+		userUpdateMany(string:UID, string[]:fieldsToUpdate, string[]:newData)
+			Updates multiple feilds of a user with some data
+
+		userDeleter(string:UID)
+			Deletes a user from the database
+
+
+	Entry Functionality:
+
+		entryAdd(string:ID, string:title, string:date, string:location, File[]:images, string:discription)
+			Ceates an entry in the "entries" database while uploading and linking supplied images
+
+		entrySearch(string:ID, function:callbackFunction)
+			Fetches a single entry from a supplied ID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
+
+		entryUpdate(string:ID, string:feildToUpdate, string:newData)
+			Updates a single feild of a entry with some data
+			NOTE: if updating a images, upload the image and store the image name and then use the image name as "newData"
+
+		entryUpdateMany(string:UID, string[]:fieldsToUpdate, string[]:newData)
+			Updates multiple feilds of a entry with some data. Please ensure that fieldsToUpdate and newData arrays entries coorspond with eachother, otherwise when updating, data will populate the incorrect field.
+			NOTE:if updating images, upload each image and store the image names into an array. Then convert the array into a string then add it into the "newData" array and then run.
+
+		entryDelete(string:ID)
+			Deletes an entry from the database
+
+	Image Storage Functionality:
+
+		addImage(File:image)
+			uploads a image to the storage without linking to a entry
+
+		getImage(string:fileName, function:callbackFunction)
+			fetches a image based on file name (including '.png', '.jpg', 'jpeg') and then passes it into the callbackFunction
+			NOTE: The callback function should be expecting a HTTP url, which is the link to the requested image. 
+
+		deleteImage(string:imageName)
+			deletes a image from the storage

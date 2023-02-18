@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <!-- create a image selector that allows for multiple files, but restrict type of files to images -->
+  <form id="form1">
+    <label for "imageUpload">Select Images</label>
+    <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple="multiple" />
+    <input type="button" value="Submit" id="submit">
+  </form>
+
+  <script type="module">
+
+    import { addImage, getImage, deleteImage, addEntry, entrySearch } from "/FirebaseAccess.js";
+
+    //create a listener on the image selector 
+    const input = document.querySelector("#imageUpload");
+    input.addEventListener('change', updateImageList);
+    const imageList = [];
+
+    function updateImageList() {
+      const Images = input.files;
+      for (let i = 0; i < input.files.length; i++) {
+        imageList[i] = input.files[i];
+      }
+    }
+
+    document.getElementById("submit").addEventListener("click", add)
+
+
+    function add() {
+      //function will add an entry to the database while uploading and linking supplied images
+      addEntry("ID", "title", "date", "location", imageList, "discription")
+      //while this one will only upload a single image not linking it to anything
+      addImage(imageList[0]);
+    }
+
+    //the following 3 functions illustrate how to fetch and proccess images from storage
+    function get() {
+      entrySearch("id", getp2);
+    }
+    function getp2(id, entry) {
+      const images = entry.Images;
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        getImage(image, display)
+      }
+    }
+    function display() {
+      //some image display code
+    }
+
+
+    function remove() {
+      deleteImage("image Name")
+    }
+
+
+  </script>
+</body>
+
+</html>

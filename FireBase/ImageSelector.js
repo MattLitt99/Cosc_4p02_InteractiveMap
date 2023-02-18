@@ -11,20 +11,16 @@ let imagesArray = []
 
 input.addEventListener("change", () => {
 	const files = input.files
-		for (let i = 0; i < files.length; i++)
-		{
-			imagesArray.push(files[i])
-		}
-		displayImages()
-	})
-		
-		
+	for (let i = 0; i < files.length; i++) {
+		imagesArray.push(files[i])
+	}
+	displayImages()
+})
 /**
 * The following funciton displays images that are desired for upload 
 * to the database alongside the rest of the entry
 */
-export function imageDisplay()
-{
+export function imageDisplay() {
 	displayImages();
 }
 
@@ -32,13 +28,11 @@ export function imageDisplay()
 * Uses the following parameter to delete the desired image from the list of images uploaded 
 * @param {index} index contains the respective image to delete from list
 */
-export function imageDelete(index)
-{
+export function imageDelete(index) {
 	deleteImage(index);
 }
 
-function displayImages()
-{
+function displayImages() {
 	let images = ""
 	imagesArray.forEach((image, index) => {
 		images += '<div class ="image"><img src="${URL.createObjectURL(image)}" alt = "image"><span onclick="deleteImage(${index})">&times;</span></div>'
@@ -46,8 +40,7 @@ function displayImages()
 	output.innerHTML = images
 }
 
-function deleteImage(index)
-{
+function deleteImage(index) {
 	imagesArray.splice(index, 1)
 	displayImages()
 }
