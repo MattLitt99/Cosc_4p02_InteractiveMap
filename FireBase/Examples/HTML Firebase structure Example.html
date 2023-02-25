@@ -1,9 +1,3 @@
-<!-- NOTE this code is out of date with regards to "FirebaseAccess.js" functionality
-    Please see "FirebaseAccess.js" or documentation for updated parameter passing
--->
-
-
-
 <!-- This file is a basic HTML site that can be used as a refrence with regards to implementing "FirebaseAccess.js" 
 
   Note: to varify this stucture works, HTML site and "FirebaseAccess.js" will have to be hosted either through Firebase hosting or 
@@ -25,6 +19,8 @@
     <input type="text" id="UID" name="UID"><br><br>
     <label for="name">name:</label>
     <input type="text" id="name" name="name"><br><br>
+    <label for="password">password:</label>
+    <input type="text" id="password" name="password"><br><br>
     <label for="accessLevel">access Level:</label>
     <input type="text" id="accessLevel" name="accessLevel"><br><br>
     <input type="button" value="Submit" id="submit">
@@ -67,7 +63,8 @@
       const UID = document.getElementById("UID").value;
       const name = document.getElementById("name").value;
       const al = document.getElementById("accessLevel").value;
-      userAdd(UID, name, al)
+      const pass = document.getElementById("password").value;
+      userAdd(UID, name, al, pass)
     }
 
     function updater() {
