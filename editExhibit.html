@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<!-- This is the HTML Page that allows the user to edit the information for an existing exhibit. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <form action="/somescript.js">
+    <label for="name"> Name </label> 
+    <br>
+    <input type="text" id="name"> 
+    <br>
+    <img src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg" width="300">
+    <br>
+    <label for="description"> Description </label>
+    <br>
+    <textarea rows="7" cols="50"> The text from the existing description should go here. </textarea> 
+    <br>
+    <label for="cars">Status</label>
+    <br>
+    <select id="status">
+      <option value="active">Active</option>
+      <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
+      <option value="inactive-viewing"> Inactive - Private Viewing</option>
+      <option value="inactive-closed">Inactive - Permanently Closed</option>
+    </select>
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
