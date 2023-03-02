@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script id="start" type="module" src="../index.js"></script>
+    
+</head>
+<body id="f1">
+    <h1>Museum Test 1</h1>
+
+    <h3 id="Floor1" onclick="goToFloor1()">Go to Floor 1</h3>
+
+    <h3 id="Floor2" onclick="goToFloor2()">Go to Floor 2</h3>
+
+    <h2 id="currentFloorLevel"></h2>
+
+    <img  id="floorplan"  src=""  width="1000" height="700">
+    <div id="container">
+        
+        <button id="F1EX1" onclick="getExData()">F1EX1</button>
+        <button id="F1EX2" onclick="getExData(1,2)">F1EX2</button>
+        <button id="F1EX3" onclick="getExData(1,3)">F1EX3</button>
+        <button id="F2EX1" onclick="getExData(2,1)">F2EX1</button>
+        <button id="F2EX2" onclick="getExData(2,2)">F2EX2</button>
+        <button id="F2EX3" onclick="getExData(2,3)">F2EX3</button>
+        <button id="F2EX4" onclick="getExData(2,4)">F2EX4</button>
+        
+
+    </div>
+    
+    <div id="exhibits">
+        <h3 id="Title"></h3>
+        <img id="exPic" src="" width="700">
+        <p id="desc"></p>
+
+    </div>
+    
+    
+
+</body>
+</html>
