@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -43,7 +43,7 @@ export function deleteImage(imageName) {
 }
 
 function Imagedelete(imageName) {
-	const imgRef = ref(storage, "images/" + imageName);
+	const imgRef = sRef(storage, "images/" + imageName);
 	deleteObject(imgRef).then(() => {
 		alert(imageName + " has been deleted")
 	}).catch((error) => {
@@ -52,29 +52,29 @@ function Imagedelete(imageName) {
 }
 
 function imageGet(imageName, callbackFunction) {
-	const imgRef = ref(storage, "images/" + imageName);
+	const imgRef = sRef(storage, "images/" + imageName);
 	getDownloadURL(imgRef).then((url) => {
 		callbackFunction(url);
 	})
 }
 
 function imageAdd(image) {
-	const imageRef = ref(storage, "images/" + image.name);
+	const imageRef = sRef(storage, "images/" + image.name);
 	uploadBytes(imageRef, image);
 }
 
 //entry functionality
 /**
- * Uses the following parameters to create an entry into the "entries" database while uploading and link supplied images
- * @param {*} ID ID refrence for the entry
+ * Uses the following parameters to create an entry into the "exhibit" database while uploading and link supplied images
+ * @param {*} ID ID refrence for the exhibit
  * @param {string} title 
  * @param {string} date 
- * @param {string} location 
+ * @param {string} floor floor which the exhibit resides 
  * @param {File[]} images
- * @param {string} discription 
+ * @param {string} description 
  */
-export function entryAdd(ID, title, date, location, images, discription) {
-	addEntry(ID, title, date, location, images, discription);
+export function entryAdd(ID, title, date, floor, images, description) {
+	addEntry(ID, title, date, floor, images, discription);
 }
 /**
  * Updates a single field of an entry with some new data
@@ -112,11 +112,11 @@ export function entryDelete(ID) {
 	deleteEntry(ID);
 }
 
-function addEntry(id, title, date, location, images, discription) {
+function addEntry(id, title, date, floor, images, description) {
 	const reference = ref(database);
-	get(child(reference, 'entries/' + id)).then((snapshot) => {
+	get(child(reference, 'Exhibits/' + id)).then((snapshot) => {
 		if (snapshot.exists()) {
-			alert("Entry Id is currently in use, Please choose a new ID");
+			alert("Exhibit Id is currently in use, Please choose a new ID");
 		} else {
 
 			//upload images and create array for names (refrence)
@@ -128,9 +128,9 @@ function addEntry(id, title, date, location, images, discription) {
 			}
 
 			//add data to database including imageNames
-			const reference = ref(database, 'entries/' + id);
-			set(reference, { Title: title, Date: date, Location: location, Images: imageNames, Disc: discription }).then(() => {
-				alert("Entry has been added");
+			const reference = ref(database, 'Exhibits/' + id);
+			set(reference, { Title: title, Date: date, Floor: floor, Images: imageNames, Desc: description }).then(() => {
+				alert("Exhibit has been added");
 			}).catch((error) => {
 				alert("An error occured \n Code:" + error.code);
 			});
@@ -140,7 +140,7 @@ function addEntry(id, title, date, location, images, discription) {
 
 function searchEntries(id, callbackFunction) {
 	const reference = ref(database);
-	get(child(reference, 'entries/' + id)).then((snapshot) => {
+	get(child(reference, 'Exhibits/' + id)).then((snapshot) => {
 		if (snapshot.exists()) {
 			const entry = snapshot.val();
 			callbackFunction(id, entry);
@@ -151,11 +151,12 @@ function searchEntries(id, callbackFunction) {
 		console.error(error);
 	})
 }
+
 function updateEntry(ID, fieldToUpdate, newData) {
 	const reference = ref(database);
-	get(child(reference, 'entries/' + ID)).then((snapshot) => {
+	get(child(reference, 'Exhibits/' + ID)).then((snapshot) => {
 		if (snapshot.exists()) {
-			const reference = ref(database, 'entries/' + ID + "/" + fieldToUpdate);
+			const reference = ref(database, 'Exhibits/' + ID + "/" + fieldToUpdate);
 			set(reference, newData).then(() => {
 				alert("ID:" + ID + " " + fieldToUpdate + " has been updated to: " + newData);
 			}).catch((error) => {
@@ -166,11 +167,12 @@ function updateEntry(ID, fieldToUpdate, newData) {
 		}
 	});
 }
+
 function deleteEntry(ID) {
 	const reference = ref(database);
-	get(child(reference, 'entries/' + ID)).then((snapshot) => {
+	get(child(reference, 'Exhibits/' + ID)).then((snapshot) => {
 		if (snapshot.exists()) {
-			const reference = ref(database, "entries/" + id);
+			const reference = ref(database, "Exhibits/" + id);
 			set(reference, null).then(() => {
 				alert("Entry with ID:" + id + " has been deleted")
 			}).catch((error) => {

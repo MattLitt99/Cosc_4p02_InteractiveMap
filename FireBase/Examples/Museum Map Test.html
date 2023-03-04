@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script id="start" type="module" src="../index.js"></script> -->
+
+</head>
+
+<body id="f1">
+    <h1>Museum Test 1</h1>
+
+    <h3 id="Floor1">Go to Floor 1</h3>
+
+    <h3 id="Floor2">Go to Floor 2</h3>
+
+    <h2 id="currentFloorLevel"></h2>
+
+    <img id="floorplan" src="" width="1000" height="700">
+
+    <div id="container">
+
+        <button id="F1EX1">F1EX1</button>
+        <button id="F1EX2">F1EX2</button>
+        <button id="F1EX3">F1EX3</button>
+        <button id="F2EX1">F2EX1</button>
+        <button id="F2EX2">F2EX2</button>
+        <button id="F2EX3">F2EX3</button>
+        <button id="F2EX4">F2EX4</button>
+
+
+    </div>
+
+    <div id="exhibits">
+        <h3 id="Title"></h3>
+        <img id="exPic" src="" width="700">
+        <p id="desc"></p>
+
+    </div>
+
+
+    <script type="module">
+        import { getImage, entrySearch } from "/FirebaseAccess.js";
+
+        //handle floorPlans
+        getFloorPlan(1)
+        document.getElementById("Floor1").addEventListener("click", function () { getFloorPlan(1) });
+        document.getElementById("Floor2").addEventListener("click", function () { getFloorPlan(2) });
+
+        function getFloorPlan(floorNumber) {
+            if (floorNumber === 1) {
+                getImage("MuseumFloor1.png", displayFloor);
+            }
+            if (floorNumber === 2) {
+                getImage("MuseumFloor2.png", displayFloor)
+            }
+        }
+        function displayFloor(URL) { //in here is where you would also set the image map
+            const floorImg = document.getElementById("floorplan");
+            floorImg.setAttribute("src", URL);
+        }
+
+
+        //handle exhibit display
+        document.getElementById("F1EX1").addEventListener("click", function () { entrySearch("A101", displayExhibit) });
+        document.getElementById("F1EX2").addEventListener("click", function () { entrySearch("A102", displayExhibit) });
+        document.getElementById("F1EX3").addEventListener("click", function () { entrySearch("B109", displayExhibit) });
+        document.getElementById("F2EX1").addEventListener("click", function () { entrySearch("B201", displayExhibit) });
+        document.getElementById("F2EX2").addEventListener("click", function () { entrySearch("B218", displayExhibit) });
+        document.getElementById("F2EX3").addEventListener("click", function () { entrySearch("C201", displayExhibit) });
+        document.getElementById("F2EX4").addEventListener("click", function () { entrySearch("C218", displayExhibit) });
+
+        function displayExhibit(id, exhibit) {
+            document.getElementById("Title").innerHTML = exhibit.Title;
+            document.getElementById("desc").innerHTML = exhibit.Desc;
+            getImage(exhibit.Images, displayExhibitImage);
+        }
+        function displayExhibitImage(URL) {
+            document.getElementById("exPic").src = URL
+        }
+    </script>
+
+
+</body>
+
+</html>
