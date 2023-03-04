@@ -35,8 +35,8 @@ Avalible Functions
 
 	Entry Functionality:
 
-		entryAdd(string:ID, string:title, string:date, string:location, File[]:images, string:discription)
-			Ceates an entry in the "entries" database while uploading and linking supplied images
+		entryAdd(string:ID, string:title, string:date, string:floor, File[]:images, string:discription)
+			Ceates an entry in the "exhibit" database while uploading and linking supplied images
 
 		entrySearch(string:ID, function:callbackFunction)
 			Fetches a single entry from a supplied ID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
