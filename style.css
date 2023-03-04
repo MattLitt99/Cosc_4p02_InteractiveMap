@@ -1,0 +1,102 @@
+ 
+/* Red: #c51a17 Blue: #08244a*/
+
+/* to get rid of the little white space at the top and sides of the page */
+ * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+body{
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+nav {
+    /* background-color: pink; */
+    text-align: right;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 5%;
+    padding-left: 20px;
+    /*height: */
+ }
+
+nav div{
+   text-align: right;
+}
+
+nav li{
+    padding: 0 20px;
+}
+
+ul, li {
+   list-style: none;
+   display: inline-block;
+ }
+
+a {
+   padding: 10px;
+   border-radius: 100px;
+  }
+  
+  nav a:link {
+    text-decoration: none;
+    color: #08244a;
+  }
+  
+  nav a:hover {
+    text-decoration: none;
+    color: #c51a17;
+  }
+  
+  nav a:visited {
+    text-decoration: none;
+  }
+  
+  nav a:active {
+    text-decoration: none;
+    color: #08244a;
+  }
+  
+  a:link {
+    text-decoration: none;
+    color: #08244a;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+    color:#08244a;
+  }
+  
+  a:active {
+    text-decoration: none;
+    color: #08244a;
+  }
+  
+  .exhibitImage {
+    width: 45%;
+    border-radius: 5px;
+  }
+
+.exhibitHeadline {
+    font-size: 30px;
+    margin: 25px;
+    color: #08244a;
+}
+
+.exhibitDescription {
+    margin: 20px 20%;
+}
+
+.status {
+    margin: 20px;
+}
