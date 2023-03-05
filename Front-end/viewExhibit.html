@@ -1,13 +1,18 @@
 <!DOCTYPE html>
+<!-- This is the page to view and edit a singular exhibit. Both the display of the exbhit information (id = viewContainer)and the 
+    form to edit it (id = editContainer) are on this page. The form is by default invisible, when you click Edit Exhibition the display
+    becomes invisible and the form to edit the info is visables again. Clicking Save Exhibit toggles back.  -->
+
+<!-- This page does not interact with the backend, it uses a javascript object from which it pulls and updates values -->
+<!-- Note the the active field doesn't update -->
+
 <html>
-<!-- This is the page to view a singular Exhibit. -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href="style.css" rel="stylesheet" type="text/css" />
   <!-- For icons -->
   <!-- <script src="https://kit.fontawesome.com/03c95c5ce3.js" crossorigin="anonymous"></script> -->
-  
 </head>
 
 <header>
@@ -18,41 +23,52 @@
             <ul>
                 <li><a href=""> Map </a></li>
                 <li><a href=""> Exhibit List </a></li>
-                <li><a href=""> Login  <img class="navUser" src="images/user.png"></a></li>
+                <li><a href=""> Account  <img class="navUser" src="images/user.png"></a></li>
             </ul>
         </div>
     </nav>
 </header>
-<body>
-    <div class="viewExhibitContainer"> 
-        <h1 class="exhibitHeadline"> Super Duper Cool Exhibit</h1>
-        <ul class="subHead">
-            <li> <span class="bold"> Status: </span> Active  </li>
-            <li> <span class="bold"> Room Number: </span>  303 </li>
-        </ul>
-        <br>
-        <img class="exhibitImage" src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg">
+<body onload="viewLoad()">
+    <div id="viewContainer"> 
+        <div class="viewExhibitContainer"> 
+            <h1 id="exhibitHeadline">  </h1>
+            <ul class="subHead">
+                <li> <span class="bold"> Status: </span> Active  </li>
+                <li id="roomNumberDisplay">  </li>
+            </ul>
+            <br>
+            <img class="exhibitImage" src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg">
     
-    <div> 
-        <p class="exhibitDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            <div> 
+                <p id="exhibitDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            </div>
+            <a class="button outlined" onclick="openEditor()"> Edit Exhibit </a>
+        </div>
     </div>
-    <div class="artifactsContainer">
-        <p> <span class="bold">Artifacts</span></p>
-        <ul class="artifactsList">
-            <li>  Viverra accumsan in nisl </li>
-            <li> <img class="bullet" src="images/new-moon.png"> Tellus integer feugiat scelerisque </li>
-            <li> <img class="bullet" src="images/new-moon.png"> Pellentesque elit eget </li>
-            <li> <img class="bullet" src="images/new-moon.png"> Congue nisi vitae </li>
-            <li> <img class="bullet" src="images/new-moon.png"> Vitae turpis massa sed elementum </li>
-            <li> <img class="bullet" src="images/new-moon.png"> A condimentum vitae sapien </li>
-            <li> <img class="bullet" src="images/new-moon.png"> Pellentesque adipiscing commodo </li>
-            <li> <img class="bullet" src="images/new-moon.png"> Pharetra et ultrices </li>
-        </ul>
-    </div>
-    <a href="editExhibit.html" class="button outlined"> Edit Exhibit </a>
-    </div>
+    <div id="editContainer">
+        <div class="viewExhibitContainer"> 
+          <input type="text" id="exhibitNameField" class="textField"> 
+          <ul class="subHead">
+                <li> <span class="bold"> Status: </span>  
+                  <select id="status">
+                    <option value="active">Active</option>
+                    <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
+                    <option value="inactive-viewing"> Inactive - Private Viewing</option>
+                    <option value="inactive-closed">Inactive - Permanently Closed</option>
+                  </select>  
+                </li>
+                <li> <span class="bold"> Room Number: </span>  
+                  <input type="text" class="textField" id="roomNumField"> 
+                </li>
+          </ul>
+          <br>
+          <img class="exhibitImage" src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg">
+          <div> 
+            <textarea wrap="hard" id="descriptionTextarea" rows="7"> </textarea>
+          </div>
+          <a class="button solid" id="saveExhibit" onclick="saveExhibit()"> Save Exhibit</a>
+        </div>
+      </div>
+    <script src="script.js"></script>
 </body>
-
-
-
 </html>

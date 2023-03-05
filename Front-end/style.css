@@ -1,9 +1,9 @@
  
 /* Red: #c51a17 Blue: #08244a*/
 
-/* to get rid of the little white space at the top and sides of the page */
- * {
-    margin: 0;
+/* To get rid of the little white space at the top and sides of the page */
+* {
+   margin: 0;
     padding: 0;
     border: 0;
     outline: 0;
@@ -11,21 +11,27 @@
     background: transparent;
 }
 
-body{
+body, textarea {
+  font-family: sans-serif;
+  font-size: 17px;
+}
+
+body {
     text-align: center;
-    font-family: sans-serif;
-    /* font-size: 20px; */
+}
+
+textarea {
+  text-align: left;
 }
 
 nav {
-    /* background-color: pink; */
-    text-align: right;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-right: 5%;
-    padding-left: 20px;
-    /*height: */
- }
+  /* background-color: pink; */
+  text-align: right;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 5%;
+  padding-left: 20px;
+}
 
 nav div{
    text-align: right;
@@ -36,87 +42,91 @@ nav li{
 }
 
 ul, li {
-   list-style: none;
-   display: inline-block;
- }
-
-a {
-   padding: 10px;
-   border-radius: 100px;
-  }
-
-  a:link, a:hover, a:visited, a:active {
-    text-decoration: none;
-  }
-  
-  nav a:link, nav a:active, nav a:visited {
-    color: #08244a;
-  }
-  
-  nav a:hover {
-    color: #c51a17;
-  }
-  
-  a:link {
-    text-decoration: none;
-    color: #08244a;
-  }
-  
-  .exhibitImage {
-    width: 65%;
-    border-radius: 5px;
-  }
-
-.exhibitHeadline {
-    font-size: 30px;
-    margin: 15px 25px 0 25px;
-    color: #08244a;
+  list-style: none;
+  display: inline-block;
 }
 
-.exhibitDescription {
-    margin: 30px 0;
+a {
+  padding: 10px;
+  border-radius: 100px;
+}
+
+/* Link Styles */
+a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+}
+  
+nav a:link, nav a:active, nav a:visited {
+  color: #08244a;
+}
+  
+nav a:hover {
+  color: #c51a17;
+}
+  
+a:link {
+  text-decoration: none;
+  color: #08244a;
+}
+  
+/* Exhibit view styles */
+.exhibitImage {
+  width: 65%;
+  border-radius: 5px;
+  /* min-width: 400px; */
+}
+
+#exhibitHeadline {
+  font-size: 30px;
+  margin: 15px 25px 0 25px;
+  color: #08244a;
+}
+
+#exhibitDescription {
+  margin: 30px 0;
 }
 
 .bold {
-    font-weight: bold;
-    color: #08244a;
+  font-weight: bold;
+  color: #08244a;
 }
 
 .subHead{
-    margin: 10px;
+  margin: 10px;
 }
 
 .subHead li{
-    margin: 0 20px;
+  margin: 0 20px;
 }
 
 .icon {
-    color: #08244a;
+  color: #08244a;
 }
 
 .navUser {
-    width: 25px;
-    vertical-align: middle;
-    margin: 0 5px;
-    color: white;
+  width: 25px;
+  vertical-align: middle;
+  margin: 0 5px;
+  color: white;
 }
 
 ul.artifactsList{
-    font-size: 17px;
-    font-family: sans-serif;
-    list-style: circle;
-    display: block;
+  font-size: 17px;
+  font-family: sans-serif;
+  list-style: circle;
+  display: block;
 }
 
 .viewExhibitContainer{
-    margin: 20px 20%;
+  margin: 20px 20%;
 }
 
-.bullet{
-    width: 5px;
-    vertical-align: middle;
+.bullet {
+  width: 5px;
+  vertical-align: middle;
 }
 
+ /* Button Styles */
 .button {
   background-color: pink;
   padding: 20px;
@@ -144,43 +154,42 @@ ul.artifactsList{
   color: white;
   border: 1px solid #c51a17;
 }
-.artifactsList {
-
-}
 
 .artifactsContainer{
   margin-bottom: 30px;
 }
 
+/* Input field styles */
 input[type=text], textarea, #status {
   border: 1px solid rgb(175, 175, 175);
   border-radius: 25px;
   padding: 5px 10px;
 }
 
-.exhibitNameField {
+#exhibitNameField {
   text-align: center;
   font-size: 30px;
   width: 100%;
   color: #08244a;
 }
 
-.roomNumField {
+#roomNumField {
   width: 50px;
 }
 
-.descriptionTextarea {
+#descriptionTextarea {
   text-align: left;
   vertical-align: text-top;
   width: 100%;
   font: sans-serif;
-  resize: vertical;
   margin: 10px 0;
   /* word-wrap:break-word;
   text-wrap:unrestricted; */
 }
 
-
+#editContainer{
+  display: none;
+}
 
 
 
