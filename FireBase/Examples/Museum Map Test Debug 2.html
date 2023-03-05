@@ -82,18 +82,25 @@
             if (floorNumber === 1) {
                 imageGet("MuseumFloor1.png", displayFloor);
                 const maptest = document.getElementById("maptest");
+                const exb = document.getElementById("exhibits");
                 var newLine = "";
+                newLine = '<h3 id="Title"></h3><img id="exPic" src="" width="700"><p id="desc"></p>';
+                exb.innerHTML = newLine;
+                newLine = "";
                 newLine = newLine + '<area class="F1EX1" shape="rect"  coords="325,315,830,535" href="#" />';
                 newLine = newLine + '<area shape="rect" class="F1EX2" coords="320,95,560,280" href="#" />';
                 newLine = newLine + '<area shape="rect" class="F1EX3" coords="140,215,285,525" href="#" />';
                 maptest.innerHTML = newLine;
                 floor1EX();
-                
             }
             if (floorNumber === 2) {
                 imageGet("MuseumFloor2.png", displayFloor)
                 const maptest = document.getElementById("maptest");
+                const exb = document.getElementById("exhibits");
                 var newLine = "";
+                newLine = '<h3 id="Title"></h3><img id="exPic" src="" width="700"><p id="desc"></p>';
+                exb.innerHTML = newLine;
+                newLine = "";
                 newLine = newLine + '<area class="F2EX1" shape="rect" coords="325,325,830,560" href="#" />';
                 newLine = newLine + '<area class="F2EX2" shape="rect" coords="320,100,560,290" href="#" />';
                 newLine = newLine + '<area class="F2EX3" shape="rect" coords="210,275,275,540" href="#" />';
