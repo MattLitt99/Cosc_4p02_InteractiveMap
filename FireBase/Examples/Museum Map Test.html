@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <script id="start" type="module" src="../index.js"></script> -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 
 </head>
 
@@ -19,20 +19,10 @@
 
     <h2 id="currentFloorLevel"></h2>
 
-    <img id="floorplan" src="" width="1000" height="700">
+    <img id="floorplan" src="" usemap="#test" width="1000" height="700">
 
-    <div id="container">
-
-        <button id="F1EX1">F1EX1</button>
-        <button id="F1EX2">F1EX2</button>
-        <button id="F1EX3">F1EX3</button>
-        <button id="F2EX1">F2EX1</button>
-        <button id="F2EX2">F2EX2</button>
-        <button id="F2EX3">F2EX3</button>
-        <button id="F2EX4">F2EX4</button>
-
-
-    </div>
+    <map id="maptest" name="test">
+    </map>
 
     <div id="exhibits">
         <h3 id="Title"></h3>
@@ -53,9 +43,32 @@
         function getFloorPlan(floorNumber) {
             if (floorNumber === 1) {
                 getImage("MuseumFloor1.png", displayFloor);
+                const maptest = document.getElementById("maptest");
+                const exb = document.getElementById("exhibits");
+                var newLine = "";
+                newLine = '<h3 id="Title"></h3><img id="exPic" src="" width="700"><p id="desc"></p>';
+                exb.innerHTML = newLine;
+                newLine = "";
+                newLine = newLine + '<area class="F1EX1" shape="rect"  coords="325,315,830,535" href="#" />';
+                newLine = newLine + '<area shape="rect" class="F1EX2" coords="320,95,560,280" href="#" />';
+                newLine = newLine + '<area shape="rect" class="F1EX3" coords="140,215,285,525" href="#" />';
+                maptest.innerHTML = newLine;
+                floor1EX();
             }
             if (floorNumber === 2) {
                 getImage("MuseumFloor2.png", displayFloor)
+                const maptest = document.getElementById("maptest");
+                const exb = document.getElementById("exhibits");
+                var newLine = "";
+                newLine = '<h3 id="Title"></h3><img id="exPic" src="" width="700"><p id="desc"></p>';
+                exb.innerHTML = newLine;
+                newLine = "";
+                newLine = newLine + '<area class="F2EX1" shape="rect" coords="325,325,830,560" href="#" />';
+                newLine = newLine + '<area class="F2EX2" shape="rect" coords="320,100,560,290" href="#" />';
+                newLine = newLine + '<area class="F2EX3" shape="rect" coords="210,275,275,540" href="#" />';
+                newLine = newLine + '<area class="F2EX4" shape="rect" coords="210,265,275,60" href="#" />';
+                maptest.innerHTML = newLine;
+                floor2EX();
             }
         }
         function displayFloor(URL) { //in here is where you would also set the image map
@@ -65,14 +78,39 @@
 
 
         //handle exhibit display
-        document.getElementById("F1EX1").addEventListener("click", function () { entrySearch("A101", displayExhibit) });
-        document.getElementById("F1EX2").addEventListener("click", function () { entrySearch("A102", displayExhibit) });
-        document.getElementById("F1EX3").addEventListener("click", function () { entrySearch("B109", displayExhibit) });
-        document.getElementById("F2EX1").addEventListener("click", function () { entrySearch("B201", displayExhibit) });
-        document.getElementById("F2EX2").addEventListener("click", function () { entrySearch("B218", displayExhibit) });
-        document.getElementById("F2EX3").addEventListener("click", function () { entrySearch("C201", displayExhibit) });
-        document.getElementById("F2EX4").addEventListener("click", function () { entrySearch("C218", displayExhibit) });
+        function floor1EX() {
+            $(".F1EX1").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("A101", displayExhibit);
+            });
+            $(".F1EX2").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("A102", displayExhibit);
+            });
+            $(".F1EX3").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("B109", displayExhibit);
+            });
+        }
 
+        function floor2EX() {
+            $(".F2EX1").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("B201", displayExhibit);
+            });
+            $(".F2EX2").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("B218", displayExhibit);
+            });
+            $(".F2EX3").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("C201", displayExhibit)
+            });
+            $(".F2EX4").on("click", function (e) {
+                e.preventDefault();
+                entrySearch("C218", displayExhibit);
+            });
+        }
         function displayExhibit(id, exhibit) {
             document.getElementById("Title").innerHTML = exhibit.Title;
             document.getElementById("desc").innerHTML = exhibit.Desc;
