@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
-<!-- To view a singular Exhibit. -->
+<!-- This is the page to view a singular Exhibit. -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <!-- For icons -->
+  <!-- <script src="https://kit.fontawesome.com/03c95c5ce3.js" crossorigin="anonymous"></script> -->
   
 </head>
 
@@ -16,18 +18,36 @@
             <ul>
                 <li><a href=""> Map </a></li>
                 <li><a href=""> Exhibit List </a></li>
-                <li><a href=""> Login </a></li>
+                <li><a href=""> Login  <img class="navUser" src="images/user.png"></a></li>
             </ul>
         </div>
     </nav>
 </header>
 <body>
-    <h1 class="exhibitHeadline"> Super Duper Cool Museaum</h1>
+    <div class="viewExhibitContainer"> 
+    <h1 class="exhibitHeadline"> Super Duper Cool Exhibit</h1>
+    <ul class="subHead">
+        <li> <span class="bold"> Status: </span> Active  </li>
+        <li> <span class="bold"> Room Number: </span>  303 </li>
+    </ul>
+    <br>
     <img class="exhibitImage" src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg">
-    <p class="status"> Status: Active </p>
+    
     <div> 
         <p class="exhibitDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+        <p> <span class="bold">Artifacts</span></p>
+        <ul class="artifactsList">
+            <li>  Viverra accumsan in nisl </li>
+            <li> <img class="bullet" src="images/new-moon.png"> Tellus integer feugiat scelerisque </li>
+            <li> <img class="bullet" src="images/new-moon.png"> Pellentesque elit eget </li>
+            <li> <img class="bullet" src="images/new-moon.png"> Congue nisi vitae </li>
+            <li> <img class="bullet" src="images/new-moon.png"> Vitae turpis massa sed elementum </li>
+            <li> <img class="bullet" src="images/new-moon.png"> A condimentum vitae sapien </li>
+            <li> <img class="bullet" src="images/new-moon.png"> Pellentesque adipiscing commodo </li>
+            <li> <img class="bullet" src="images/new-moon.png"> Pharetra et ultrices </li>
+        </ul>
     </div>
+</div>
 </body>
 
 

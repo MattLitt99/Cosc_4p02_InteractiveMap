@@ -13,7 +13,8 @@
 
 body{
     text-align: center;
-    font-family: 'Lato', sans-serif;
+    font-family: sans-serif;
+    /* font-size: 20px; */
 }
 
 nav {
@@ -83,20 +84,56 @@ a {
   }
   
   .exhibitImage {
-    width: 45%;
+    width: 65%;
     border-radius: 5px;
   }
 
 .exhibitHeadline {
     font-size: 30px;
-    margin: 25px;
+    margin: 15px 25px 0 25px;
     color: #08244a;
 }
 
 .exhibitDescription {
+    margin: 30px 0;
+}
+
+.bold {
+    font-weight: bold;
+    color: #08244a;
+}
+
+.subHead{
+    margin: 10px;
+}
+
+.subHead li{
+    margin: 0 20px;
+}
+
+.icon {
+    color: #08244a;
+}
+
+.navUser {
+    width: 25px;
+    vertical-align: middle;
+    margin: 0 5px;
+    color: white;
+}
+
+ul.artifactsList{
+    font-size: 17px;
+    font-family: sans-serif;
+    list-style: circle;
+    display: block;
+}
+
+.viewExhibitContainer{
     margin: 20px 20%;
 }
 
-.status {
-    margin: 20px;
+.bullet{
+    width: 5px;
+    vertical-align: middle;
 }
