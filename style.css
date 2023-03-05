@@ -44,41 +44,20 @@ a {
    padding: 10px;
    border-radius: 100px;
   }
-  
-  nav a:link {
+
+  a:link, a:hover, a:visited, a:active {
     text-decoration: none;
+  }
+  
+  nav a:link, nav a:active, nav a:visited {
     color: #08244a;
   }
   
   nav a:hover {
-    text-decoration: none;
     color: #c51a17;
   }
   
-  nav a:visited {
-    text-decoration: none;
-  }
-  
-  nav a:active {
-    text-decoration: none;
-    color: #08244a;
-  }
-  
   a:link {
-    text-decoration: none;
-    color: #08244a;
-  }
-  
-  a:hover {
-    text-decoration: none;
-  }
-  
-  a:visited {
-    text-decoration: none;
-    color:#08244a;
-  }
-  
-  a:active {
     text-decoration: none;
     color: #08244a;
   }
@@ -136,4 +115,38 @@ ul.artifactsList{
 .bullet{
     width: 5px;
     vertical-align: middle;
+}
+
+.button {
+  background-color: pink;
+  padding: 20px;
+  border-radius: 0;
+  display: inline-block;
+}
+
+.solid {
+  background-color: #c51a17;
+  color: white;
+}
+
+.solid:hover{
+  background-color: #08244a;
+}
+
+.outlined {
+  color: #c51a17;
+  border: 1px solid #c51a17;
+}
+
+.outlined:hover {
+  background-color: #c51a17;
+  color: white;
+  border: 1px solid #c51a17;
+}
+.artifactsList {
+
+}
+
+.artifactsContainer{
+  margin-bottom: 30px;
 }
