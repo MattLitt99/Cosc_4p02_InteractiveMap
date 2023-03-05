@@ -135,6 +135,7 @@ ul.artifactsList{
 
 .outlined {
   color: #c51a17;
+  background-color: transparent;
   border: 1px solid #c51a17;
 }
 
@@ -150,3 +151,36 @@ ul.artifactsList{
 .artifactsContainer{
   margin-bottom: 30px;
 }
+
+input[type=text], textarea, #status {
+  border: 1px solid rgb(175, 175, 175);
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.exhibitNameField {
+  text-align: center;
+  font-size: 30px;
+  width: 100%;
+  color: #08244a;
+}
+
+.roomNumField {
+  width: 50px;
+}
+
+.descriptionTextarea {
+  text-align: left;
+  vertical-align: text-top;
+  width: 100%;
+  font: sans-serif;
+  resize: vertical;
+  margin: 10px 0;
+  /* word-wrap:break-word;
+  text-wrap:unrestricted; */
+}
+
+
+
+
+

@@ -25,16 +25,24 @@
 </header>
 <body>
     <div class="viewExhibitContainer"> 
-        <h1 class="exhibitHeadline"> Super Duper Cool Exhibit</h1>
+        <input type="text" class="textField exhibitNameField"> 
         <ul class="subHead">
-            <li> <span class="bold"> Status: </span> Active  </li>
-            <li> <span class="bold"> Room Number: </span>  303 </li>
+            <li> <span class="bold"> Status: </span>  
+              <select id="status">
+                <option value="active">Active</option>
+                <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
+                <option value="inactive-viewing"> Inactive - Private Viewing</option>
+                <option value="inactive-closed">Inactive - Permanently Closed</option>
+              </select>  </li>
+            <li> <span class="bold"> Room Number: </span>  
+              <input type="text" class="textField roomNumField"> 
+            </li>
         </ul>
         <br>
         <img class="exhibitImage" src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg">
     
     <div> 
-        <p class="exhibitDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+        <textarea wrap="hard" class="descriptionTextarea"> </textarea>
     </div>
     <div class="artifactsContainer">
         <p> <span class="bold">Artifacts</span></p>
@@ -49,7 +57,7 @@
             <li> <img class="bullet" src="images/new-moon.png"> Pharetra et ultrices </li>
         </ul>
     </div>
-    <a href="editExhibit.html" class="button solid"> Edit Exhibit </a>
+    <a href="editExhibit.html" class="button solid"> Save Exhibit</a>
     </div>
 </body>
 
