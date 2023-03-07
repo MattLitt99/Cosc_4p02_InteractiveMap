@@ -210,7 +210,7 @@ export function userUpdate(UID, fieldToUpdate, newData) {
  * @param {string[]} newData 
  */
 export function userUpdateMany(ID, feildsToUpdate, newData) {
-	feildsToUpdate.array.forEach((element, index) => {
+	feildsToUpdate.forEach((element, index) => {
 		updateUser(ID, element, newData[index]);
 	});
 }
