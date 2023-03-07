@@ -18,6 +18,7 @@ body, textarea {
 
 body {
     text-align: center;
+    /* min-height: 2000px; */
 }
 
 textarea {
@@ -48,7 +49,7 @@ ul, li {
 
 a {
   padding: 10px;
-  border-radius: 100px;
+  border-radius: 75px;
 }
 
 /* Link Styles */
@@ -226,6 +227,7 @@ input[type=text], input[type=password], textarea, #status {
   margin: 100px auto;
   display: inline-block;
   text-align: center;
+  min-height: 350px;
 }
 
 table, td, tr, td {
@@ -239,4 +241,17 @@ th {
 
 #accountContainer td,  #accountContainer th {
   padding: 10px 100px;
+}
+
+/* Footer Styles */
+
+footer {
+  background-color: #8d8d8d;
+  color: white;
+  /* min-height: 70px; */
+  padding: 10px;
+}
+
+footer p {
+  margin: 10px;
 }
