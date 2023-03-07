@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<!-- <style>
+	.error {
+		color: rgb(163, 15, 15);
+	}
+	</style> -->
+</head>
+<header>
+    <nav>
+        <!-- Logo -->
+        <!-- <img src="https://www.notlmuseum.ca/shared/skins/default/images/logo.svg" class="logo"> -->
+        <div>
+            <ul>
+                <li><a href=""> Map </a></li>
+                <li><a href=""> Exhibit List </a></li>
+                <li><a href=""> Account  <img class="navUser" src="images/user.png"></a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<body>
+	<form onsubmit="return validateForm()">
+		<h2>Login</h2>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required><br><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required><br>
+		<span id="passwordError" class="error"></span><br>
+		<input type="submit" value="Login">
+	</form>
+
+	<script>
+		function validateForm() {
+			var password = document.getElementById("password").value;
+			if (password.length < 6) {
+				document.getElementById("passwordError").innerHTML = "Please enter the password with atleast 6 characters";
+				return false;
+			} else {
+				document.getElementById("passwordError").innerHTML = "";
+				return true;
+			}
+		}
+	</script>
+</body>
+</html>

@@ -191,5 +191,8 @@ input[type=text], textarea, #status {
   display: none;
 }
 
+.error {
+  color: rgb(163, 15, 15);
+}
 
 
