@@ -213,3 +213,23 @@ input[type=text], input[type=password], textarea, #status {
   padding: 15px;
   width: 50%;
 }
+
+/* Account overview specific Styles */
+#accountContainer{
+  margin: 100px auto;
+  display: inline-block;
+  text-align: center;
+}
+
+table, td, tr, td {
+  border-bottom: 1px solid rgb(175, 175, 175);
+  border-collapse: collapse;
+}
+
+th {
+  color: #08244a;
+}
+
+#accountContainer td,  #accountContainer th {
+  padding: 10px 100px;
+}
