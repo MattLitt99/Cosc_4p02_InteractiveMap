@@ -80,7 +80,10 @@
       const UID = document.getElementById("UID").value;
       const name = document.getElementById("name").value;
       const al = document.getElementById("accessLevel").value
-      userUpdate(UID, name, al)
+      userUpdate(UID, "Name", name)
+      userUpdate(UID, "AccessLevel", al)
+      //or
+      userUpdateMany(UID, ["Name", "AccessLevel"], [name, al]);
     }
 
     function deleteID() {
@@ -110,18 +113,17 @@
     const storage = getStorage(app);
 
     //entry functionality
-
     /**
-     * Uses the following parameters to create an entry into the "entries" database
-     * @param {*} ID ID refrence for the entry
+     * Uses the following parameters to create an entry into the "exhibit" database while uploading and link supplied images
+     * @param {*} ID ID refrence for the exhibit
      * @param {string} title 
      * @param {string} date 
-     * @param {string} location 
-     * @param {string} photoURL
-     * @param {string} discription 
+     * @param {string} floor floor which the exhibit resides 
+     * @param {File[]} images
+     * @param {string} description 
      */
-    export function entryAdd(ID, title, date, location, photoURL, discription) {
-      addEntry(ID, title, date, location, photoURL, discription);
+    export function entryAdd(ID, title, date, floor, images, description) {
+      addEntry(ID, title, date, floor, images, discription);
     }
     /**
      * Updates a single field of an entry with some new data
@@ -143,7 +145,6 @@
         updateEntry(ID, element, newData[index]);
       });
     }
-
     /**
      * fetches a single entry based on a supplied ID
      * @param {*} ID ID reference for the entry
@@ -160,24 +161,35 @@
       deleteEntry(ID);
     }
 
-    function addEntry(id, title, date, location, photoURL, discription) {
+    function addEntry(id, title, date, floor, images, description) {
       const reference = ref(database);
-      get(child(reference, 'entries/' + id)).then((snapshot) => {
+      get(child(reference, 'Exhibits/' + id)).then((snapshot) => {
         if (snapshot.exists()) {
-          alert("Entry Id is currently in use, Please choose a new ID");
+          alert("Exhibit Id is currently in use, Please choose a new ID");
         } else {
-          const reference = ref(database, 'entries/' + id);
-          set(reference, { Title: title, Date: date, Location: location, Photo: photoURL, Disc: discription }).then(() => {
-            alert("Entry has been added");
+
+          //upload images and create array for names (refrence)
+          const imageNames = [];
+          for (let i = 0; i < images.length; i++) {
+            const element = images[i];
+            imageNames[i] = element.name;
+            imageAdd(element);
+          }
+
+          //add data to database including imageNames
+          const reference = ref(database, 'Exhibits/' + id);
+          set(reference, { Title: title, Date: date, Floor: floor, Images: imageNames, Desc: description }).then(() => {
+            alert("Exhibit has been added");
           }).catch((error) => {
             alert("An error occured \n Code:" + error.code);
           });
         }
       });
     }
+
     function searchEntries(id, callbackFunction) {
       const reference = ref(database);
-      get(child(reference, 'entries/' + id)).then((snapshot) => {
+      get(child(reference, 'Exhibits/' + id)).then((snapshot) => {
         if (snapshot.exists()) {
           const entry = snapshot.val();
           callbackFunction(id, entry);
@@ -188,11 +200,12 @@
         console.error(error);
       })
     }
+
     function updateEntry(ID, fieldToUpdate, newData) {
       const reference = ref(database);
-      get(child(reference, 'entries/' + ID)).then((snapshot) => {
+      get(child(reference, 'Exhibits/' + ID)).then((snapshot) => {
         if (snapshot.exists()) {
-          const reference = ref(database, 'entries/' + ID + "/" + fieldToUpdate);
+          const reference = ref(database, 'Exhibits/' + ID + "/" + fieldToUpdate);
           set(reference, newData).then(() => {
             alert("ID:" + ID + " " + fieldToUpdate + " has been updated to: " + newData);
           }).catch((error) => {
@@ -203,11 +216,12 @@
         }
       });
     }
+
     function deleteEntry(ID) {
       const reference = ref(database);
-      get(child(reference, 'entries/' + ID)).then((snapshot) => {
+      get(child(reference, 'Exhibits/' + ID)).then((snapshot) => {
         if (snapshot.exists()) {
-          const reference = ref(database, "entries/" + id);
+          const reference = ref(database, "Exhibits/" + id);
           set(reference, null).then(() => {
             alert("Entry with ID:" + id + " has been deleted")
           }).catch((error) => {
@@ -242,10 +256,10 @@
      * Updates many fields of a user with some new data
      * @param {*} ID ID refrence for the user
      * @param {string[]} feildsToUpdate 
-     * @param {*} newData 
+     * @param {string[]} newData 
      */
     export function userUpdateMany(ID, feildsToUpdate, newData) {
-      feildsToUpdate.array.forEach((element, index) => {
+      feildsToUpdate.forEach((element, index) => {
         updateUser(ID, element, newData[index]);
       });
     }
@@ -261,12 +275,13 @@
      * Uses the following parameters to create a user into the "users" database
      * @param {*} UID ID reference 
      * @param {string} name 
-     * @param {string} al Access level of the user
+     * @param {string} accessLevel Access level of the user
      * @param {string} password
      */
-    export function userAdd(UID, name, al, password) {
-      addUser(UID, name, al, password);
+    export function userAdd(UID, name, accessLevel, password) {
+      addUser(UID, name, accessLevel, password);
     }
+
     function addUser(id, name, accessLevel, password) {
       const reference = ref(database);
       get(child(reference, 'users/' + id)).then((snapshot) => {
