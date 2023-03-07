@@ -17,22 +17,23 @@
             <ul>
                 <li><a href=""> Map </a></li>
                 <li><a href=""> Exhibit List </a></li>
-                <li><a href=""> Account  <img class="navUser" src="images/user.png"></a></li>
+                <li><a href=""> Login  <img class="navUser" src="images/user.png"></a></li>
             </ul>
         </div>
     </nav>
 </header>
 <body>
-	<form onsubmit="return validateForm()">
-		<h2>Login</h2>
-		<label for="username">Username:</label>
-		<input type="text" id="username" name="username" required><br><br>
-		<label for="password">Password:</label>
-		<input type="password" id="password" name="password" required><br>
-		<span id="passwordError" class="error"></span><br>
-		<input type="submit" value="Login">
-	</form>
-
+	<div class="loginContainer">
+		<form onsubmit="return validateForm()">
+			<h2>Login</h2>
+			<label for="username">Username:</label>
+			<input type="text" id="username" name="username" required><br><br>
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" required><br>
+			<span id="passwordError" class="error"></span><br>
+			<input type="submit" value="Login" class="button solid" id="loginButton">
+		</form>
+	</div>
 	<script>
 		function validateForm() {
 			var password = document.getElementById("password").value;

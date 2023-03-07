@@ -160,7 +160,7 @@ ul.artifactsList{
 }
 
 /* Input field styles */
-input[type=text], textarea, #status {
+input[type=text], input[type=password], textarea, #status {
   border: 1px solid rgb(175, 175, 175);
   border-radius: 25px;
   padding: 5px 10px;
@@ -191,8 +191,25 @@ input[type=text], textarea, #status {
   display: none;
 }
 
+/* Login Page specific Styles */
 .error {
   color: rgb(163, 15, 15);
 }
 
+.loginContainer{
+  width: 300px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 45px 30px;
+  border: 1px solid rgb(175, 175, 175);
+  border-radius: 10px;
+}
 
+.loginContainer h2 {
+  margin-bottom: 20px;
+}
+
+#loginButton{
+  padding: 15px;
+  width: 50%;
+}
