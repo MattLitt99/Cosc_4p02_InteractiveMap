@@ -25,7 +25,7 @@ textarea {
 }
 
 nav {
-  /* background-color: pink; */
+  background-color: white;
   text-align: right;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -196,13 +196,20 @@ input[type=text], input[type=password], textarea, #status {
   color: rgb(163, 15, 15);
 }
 
+#loginBody{
+  background-image: url("images/login.jpg");
+  background-size: cover;
+}
+
+
 .loginContainer{
   width: 300px;
-  margin: 50px auto;
+  margin: 10% auto;
   text-align: center;
   padding: 45px 30px;
   border: 1px solid rgb(175, 175, 175);
   border-radius: 10px;
+  background-color: white;
 }
 
 .loginContainer h2 {
