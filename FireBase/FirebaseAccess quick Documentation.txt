@@ -35,22 +35,21 @@ Avalible Functions
 
 	Entry Functionality:
 
-		entryAdd(string:ID, string:title, string:date, string:floor, File[]:images, string:discription)
+		exhibitAdd(string:ID, string:title, string:date, string:floor, File[]:images, string:discription, string:status)
 			Ceates an entry in the "exhibit" database while uploading and linking supplied images
 
-		entrySearch(string:ID, function:callbackFunction)
-			Fetches a single entry from a supplied ID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
+		exhibitSearch(string:ID, function:callbackFunction)
+			Fetches a single exhibit from a supplied ID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
 
-		entryUpdate(string:ID, string:feildToUpdate, string:newData)
-			Updates a single feild of a entry with some data
-			NOTE: if updating a images, upload the image and store the image name and then use the image name as "newData"
+		exhibitUpdate(string:ID, string:feildToUpdate, any:newData)
+			Updates a single feild of a exhibitwith some data
 
-		entryUpdateMany(string:UID, string[]:fieldsToUpdate, string[]:newData)
-			Updates multiple feilds of a entry with some data. Please ensure that fieldsToUpdate and newData arrays entries coorspond with eachother, otherwise when updating, data will populate the incorrect field.
-			NOTE:if updating images, upload each image and store the image names into an array. Then convert the array into a string then add it into the "newData" array and then run.
+		exhibitUpdateMany(string:UID, string[]:fieldsToUpdate, string[]:newData)
+			Updates multiple feilds of a exhibitwith some data. Please ensure that fieldsToUpdate and newData arrays entries coorspond with eachother, otherwise when updating, data will populate the incorrect field.
+			NOTE:if updating images, store the images in an array. And then insert the image array into the newData[]
 
-		entryDelete(string:ID)
-			Deletes an entry from the database
+		exhibitDelete(string:ID)
+			Deletes an exhibitfrom the database
 
 	Image Storage Functionality:
 
@@ -59,7 +58,7 @@ Avalible Functions
 
 		getImage(string:fileName, function:callbackFunction)
 			fetches a image based on file name (including '.png', '.jpg', 'jpeg') and then passes it into the callbackFunction
-			NOTE: The callback function should be expecting a HTTP url, which is the link to the requested image. 
+			NOTE: The callback function should be expecting a HTTP urls, which isthe link to the requested image. 
 
 		deleteImage(string:imageName)
 			deletes a image from the storage

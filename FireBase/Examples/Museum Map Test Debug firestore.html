@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <!-- <script id="start" type="module" src="../index.js"></script> -->
+
+</head>
+
+<body id="f1">
+    <h1>Museum Test 1</h1>
+
+    <h3 id="Floor1">Go to Floor 1</h3>
+
+    <h3 id="Floor2">Go to Floor 2</h3>
+
+    <h2 id="currentFloorLevel"></h2>
+    <img id="floorplan" src="" usemap="#test" width="1000" height="700">
+
+    <map id="maptest" name="test">
+    </map>
+
+    <div id="exhibits">
+        <h3 id="Title"></h3>
+        <img id="exPic" src="" width="700">
+        <p id="desc"></p>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getFirestore, setDoc, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+        import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+
+        // Your web app's Firebase configuration
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
+            authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
+            projectId: "cosc4p02-mesuemmap",
+            storageBucket: "cosc4p02-mesuemmap.appspot.com",
+            messagingSenderId: "235500180144",
+            appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
+            databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getFirestore(app);
+        const storage = getStorage(app);
+
+        //function directly lifted from FirebaseAccess.js
+        function imageGet(imageName, callbackFunction) {
+            const imgRef = sRef(storage, "images/" + imageName);
+            getDownloadURL(imgRef).then((url) => {
+                callbackFunction(url);
+            })
+        }
+
+        async function searchExhibits(ID, callbackFunction) {
+            const docRef = doc(database, "Exhibits", ID);
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+                callbackFunction(ID, snap.data());
+            } else {
+                alert("No exhibit associated with " + ID);
+            }
+        }
+
+        //handle floorPlans
+        getFloorPlan(1)
+        document.getElementById("Floor1").addEventListener("click", function () { getFloorPlan(1) });
+        document.getElementById("Floor2").addEventListener("click", function () { getFloorPlan(2) });
+        function getFloorPlan(floorNumber) {
+            if (floorNumber === 1) {
+                imageGet("MuseumFloor1.png", displayFloor);
+                const maptest = document.getElementById("maptest");
+                const exb = document.getElementById("exhibits");
+                var newLine = "";
+                newLine = '<h3 id="Title"></h3><img id="exPic" src="" width="700"><p id="desc"></p>';
+                exb.innerHTML = newLine;
+                newLine = "";
+                newLine = newLine + '<area class="F1EX1" shape="rect"  coords="325,315,830,535" href="#"/>';
+                newLine = newLine + '<area shape="rect" class="F1EX2" coords="320,95,560,280" href="#" />';
+                newLine = newLine + '<area shape="rect" class="F1EX3" coords="140,215,285,525" href="#" />';
+                maptest.innerHTML = newLine;
+                // floor1EX();
+            }
+            if (floorNumber === 2) {
+                imageGet("MuseumFloor2.png", displayFloor)
+                const maptest = document.getElementById("maptest");
+                const exb = document.getElementById("exhibits");
+                var newLine = "";
+                newLine = '<h3 id="Title"></h3><img id="exPic" src="" width="700"><p id="desc"></p>';
+                exb.innerHTML = newLine;
+                newLine = "";
+                newLine = newLine + '<area class="F2EX1" shape="rect" coords="325,325,830,560" href="#" />';
+                newLine = newLine + '<area class="F2EX2" shape="rect" coords="320,100,560,290" href="#" />';
+                newLine = newLine + '<area class="F2EX3" shape="rect" coords="210,275,275,540" href="#" />';
+                newLine = newLine + '<area class="F2EX4" shape="rect" coords="210,265,275,60" href="#" />';
+                maptest.innerHTML = newLine;
+                // floor2EX();
+            }
+        }
+        function displayFloor(URL) { //in here is where you would also set the image map
+            const floorImg = document.getElementById("floorplan");
+            floorImg.setAttribute("src", URL);
+        }
+
+        function floor1EX() {
+            $(".F1EX1").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("A101", displayExhibit);
+            });
+            $(".F1EX2").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("A102", displayExhibit);
+            });
+            $(".F1EX3").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("B109", displayExhibit);
+            });
+        }
+
+        function floor2EX() {
+            $(".F2EX1").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("B201", displayExhibit);
+            });
+            $(".F2EX2").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("B218", displayExhibit);
+            });
+            $(".F2EX3").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("C201", displayExhibit)
+            });
+            $(".F2EX4").on("click", function (e) {
+                e.preventDefault();
+                searchExhibits("C218", displayExhibit);
+            })
+        }
+
+        function displayExhibit(id, exhibit) {
+            document.getElementById("Title").innerHTML = exhibit.Title;
+            document.getElementById("desc").innerHTML = exhibit.Desc;
+            imageGet(exhibit.Images, displayExhibitImage);
+        }
+        function displayExhibitImage(URL) {
+            document.getElementById("exPic").src = URL
+        }
+    </script>
+</body>
+
+</html>

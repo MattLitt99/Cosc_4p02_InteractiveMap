@@ -1,198 +1,153 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+import { getFirestore, setDoc, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
-	authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
-	projectId: "cosc4p02-mesuemmap",
-	storageBucket: "cosc4p02-mesuemmap.appspot.com",
-	messagingSenderId: "235500180144",
-	appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
-	databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
+    apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
+    authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
+    projectId: "cosc4p02-mesuemmap",
+    storageBucket: "cosc4p02-mesuemmap.appspot.com",
+    messagingSenderId: "235500180144",
+    appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
+    databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
-const database = getDatabase();
+const database = getFirestore(app);
 const storage = getStorage(app);
 
-//image Storage functionality
-/**
- * Uploads a single image to the image storage
- * @param {File} image image to be uploaded
- */
-export function addImage(image) {
-	imageAdd(image)
-}
-/**
- * fetches a image, based on supplied name (including '.png' '.jpg' or '.jpeg') and runs a callbackfunction on it
- * @param {string} imageName 
- * @param {function} callbackFunction a function that is expecting a http url which is the link to the requested image
- */
-export function getImage(imageName, callbackFunction) {
-	imageGet(imageName, callbackFunction);
-}
-/**
- * deletes a image, based on supplied name (including '.png' '.jpg' or '.jpeg')
- * @param {string} imageName 
- */
-export function deleteImage(imageName) {
-	Imagedelete(imageName);
-}
 
-function Imagedelete(imageName) {
-	const imgRef = sRef(storage, "images/" + imageName);
-	deleteObject(imgRef).then(() => {
-		alert(imageName + " has been deleted")
-	}).catch((error) => {
-		alert("Error: " + error.code + " has occured, please try again")
-	});
-}
-
-function imageGet(imageName, callbackFunction) {
-	const imgRef = sRef(storage, "images/" + imageName);
-	getDownloadURL(imgRef).then((url) => {
-		callbackFunction(url);
-	})
-}
-
-function imageAdd(image) {
-	const imageRef = sRef(storage, "images/" + image.name);
-	uploadBytes(imageRef, image);
-}
-
-//entry functionality
+//EXHIBIT FUNCTIONALITY
 /**
  * Uses the following parameters to create an entry into the "exhibit" database while uploading and link supplied images
- * @param {*} ID ID refrence for the exhibit
+ * @param {*} ID
  * @param {string} title 
  * @param {string} date 
- * @param {string} floor floor which the exhibit resides 
+ * @param {string} floor 
  * @param {File[]} images
  * @param {string} description 
+ * @param {string} status
  */
-export function entryAdd(ID, title, date, floor, images, description) {
-	addEntry(ID, title, date, floor, images, discription);
+export function exhibitAdd(ID, title, date, floor, images, description, status) {
+    addExhibit(ID, title, date, floor, images, description, status);
 }
 /**
- * Updates a single field of an entry with some new data
- * @param {*} ID ID refrence for the entry
+ * Updates a single field of an exhibit with some new data
+ * @param {*} ID ID refrence for the exhibit
  * @param {string} fieldToUpdate 
- * @param {string} newData 
+ * @param {*} newData 
  */
-export function entryUpdate(ID, fieldToUpdate, newData) {
-	updateEntry(ID, fieldToUpdate, newData);
+export function exhibitUpdate(ID, fieldToUpdate, newData) {
+    updateExhibit(ID, fieldToUpdate, newData);
 }
 /**
- * Updates many fields of an entry with some new data
- * @param {*} ID ID reference for the entry
+ * Updates many fields of an exhibit with some new data
+ * @param {*} ID ID reference for the exhibit
  * @param {string[]} feildsToUpdate 
  * @param {*} newData 
  */
-export function entryUpdateMany(ID, feildsToUpdate, newData) {
-	feildsToUpdate.array.forEach((element, index) => {
-		updateEntry(ID, element, newData[index]);
-	});
+export function exhibitUpdateMany(ID, feildsToUpdate, newData) {
+    feildsToUpdate.forEach((element, index) => {
+        updateExhibit(ID, element, newData[index]);
+    });
 }
 /**
- * fetches a single entry based on a supplied ID
- * @param {*} ID ID reference for the entry
+ * fetches a single exhibit based on a supplied ID
+ * @param {*} ID ID reference for the exhibit
  * @param {function} callbackFunction a function that will handle the results of a search, typically for displaying the results
  */
-export function entrySearch(ID, callbackFunction) {
-	searchEntries(ID, callbackFunction);
+export function exhibitSearch(ID, callbackFunction) {
+    searchExhibits(ID, callbackFunction);
 }
 /**
- * Deletes a specified entry
- * @param {*} ID ID referencereferencereferencereferencereference for the entry
+ * Deletes a specified exhibit
+ * @param {*} ID ID reference for the entry
  */
-export function entryDelete(ID) {
-	deleteEntry(ID);
+export function exhibitDelete(ID) {
+    deleteExhibit(ID);
+}
+async function addExhibit(ID, title, date, floor, images, description, status) {
+    const docRef = doc(database, "Exhibits", ID);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        alert("Exhibit Id is currently in use, Please choose a new ID");
+    } else {
+        //upload images and store names
+        const imageNames = [];
+        for (let i = 0; i < images.length; i++) {
+            const element = images[i];
+            imageNames[i] = element.name;
+            imageAdd(element);
+        }
+
+        //create exhibit
+        await setDoc(docRef, {
+            Title: title,
+            Date: date,
+            Floor: floor,
+            Images: imageNames,
+            Desc: description,
+            Satus: status
+        });
+        alert("Exhbit Added");
+    }
+}
+async function searchExhibits(ID, callbackFunction) {
+    const docRef = doc(database, "Exhibits", ID);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        callbackFunction(ID, snap.data());
+    } else {
+        alert("No exhibit associated with " + ID);
+    }
+}
+async function updateExhibit(ID, fieldToUpdate, newData) {
+    const docRef = doc(data, "Exhibits", ID);
+    if (fieldToUpdate === "Title") {
+        setDoc(docRef, { Title: newData }, { merge: true })
+    }
+    if (fieldToUpdate === "Date") {
+        setDoc(docRef, { Date: newData }, { merge: true })
+    }
+    if (fieldToUpdate === "Floor") {
+        setDoc(docRef, { Floor: newData }, { merge: true })
+    }
+    if (fieldToUpdate === "Images") {
+        const images = newData;
+        const imageNames = [];
+        for (let i = 0; i < images.length; i++) {
+            const element = images[i];
+            imageNames[i] = element.name;
+            imageAdd(element);
+        }
+        setDoc(docRef, { Images: imageNames }, { merge: true })
+    }
+    if (fieldToUpdate === "Desc") {
+        setDoc(docRef, { Desc: newData }, { merge: true })
+    }
+    if (fieldToUpdate === "Satus") {
+        setDoc(docRef, { Satus: newData }, { merge: true })
+    }
+}
+async function deleteExhibit(ID) {
+    const docRef = doc(data, "Exhibits", ID);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        deleteDoc(docRef);
+        alert("Deleted exhibit associated with " + ID);
+    } else {
+        alert("No exhibit associated with " + ID);
+    }
 }
 
-function addEntry(id, title, date, floor, images, description) {
-	const reference = ref(database);
-	get(child(reference, 'Exhibits/' + id)).then((snapshot) => {
-		if (snapshot.exists()) {
-			alert("Exhibit Id is currently in use, Please choose a new ID");
-		} else {
-
-			//upload images and create array for names (refrence)
-			const imageNames = [];
-			for (let i = 0; i < images.length; i++) {
-				const element = images[i];
-				imageNames[i] = element.name;
-				imageAdd(element);
-			}
-
-			//add data to database including imageNames
-			const reference = ref(database, 'Exhibits/' + id);
-			set(reference, { Title: title, Date: date, Floor: floor, Images: imageNames, Desc: description }).then(() => {
-				alert("Exhibit has been added");
-			}).catch((error) => {
-				alert("An error occured \n Code:" + error.code);
-			});
-		}
-	});
-}
-
-function searchEntries(id, callbackFunction) {
-	const reference = ref(database);
-	get(child(reference, 'Exhibits/' + id)).then((snapshot) => {
-		if (snapshot.exists()) {
-			const entry = snapshot.val();
-			callbackFunction(id, entry);
-		} else {
-			alert("No entry is asocatied with Id:" + id);
-		}
-	}).catch((error) => {
-		console.error(error);
-	})
-}
-
-function updateEntry(ID, fieldToUpdate, newData) {
-	const reference = ref(database);
-	get(child(reference, 'Exhibits/' + ID)).then((snapshot) => {
-		if (snapshot.exists()) {
-			const reference = ref(database, 'Exhibits/' + ID + "/" + fieldToUpdate);
-			set(reference, newData).then(() => {
-				alert("ID:" + ID + " " + fieldToUpdate + " has been updated to: " + newData);
-			}).catch((error) => {
-				alert("An error occured \n Code:" + error.code);
-			});
-		} else {
-			alert("No entry is asocatied with Id:" + ID);
-		}
-	});
-}
-
-function deleteEntry(ID) {
-	const reference = ref(database);
-	get(child(reference, 'Exhibits/' + ID)).then((snapshot) => {
-		if (snapshot.exists()) {
-			const reference = ref(database, "Exhibits/" + id);
-			set(reference, null).then(() => {
-				alert("Entry with ID:" + id + " has been deleted")
-			}).catch((error) => {
-				alert("An error occured \n Code:" + error.code);
-			})
-		} else {
-			alert("No entry is asocatied with Id:" + id);
-		}
-	})
-}
-
-
-
-// User functionality
+//USER FUNCTIONALITY
 /**
  * Deletes a specified user
  * @param {*} ID ID referencereference for the user
  */
 export function userDeleter(UID) {
-	deleteUser(UID);
+    deleteUser(UID);
 }
 /**
  * Updates a single field of a user with some new data
@@ -201,7 +156,7 @@ export function userDeleter(UID) {
  * @param {string} newData 
  */
 export function userUpdate(UID, fieldToUpdate, newData) {
-	updateUser(UID, fieldToUpdate, newData);
+    updateUser(UID, fieldToUpdate, newData);
 }
 /**
  * Updates many fields of a user with some new data
@@ -210,9 +165,9 @@ export function userUpdate(UID, fieldToUpdate, newData) {
  * @param {string[]} newData 
  */
 export function userUpdateMany(ID, feildsToUpdate, newData) {
-	feildsToUpdate.forEach((element, index) => {
-		updateUser(ID, element, newData[index]);
-	});
+    feildsToUpdate.forEach((element, index) => {
+        updateUser(ID, element, newData[index]);
+    });
 }
 /**
  * fetches a single user based on a supplied ID
@@ -220,7 +175,7 @@ export function userUpdateMany(ID, feildsToUpdate, newData) {
  * @param {function} callbackFunction a function that will handle the results of a search, typically for displaying the results
  */
 export function userSearch(UID, callbackFunction) {
-	searchUsers(UID, callbackFunction);
+    searchUser(UID, callbackFunction);
 }
 /**
  * Uses the following parameters to create a user into the "users" database
@@ -230,64 +185,100 @@ export function userSearch(UID, callbackFunction) {
  * @param {string} password
  */
 export function userAdd(UID, name, accessLevel, password) {
-	addUser(UID, name, accessLevel, password);
+    addUser(UID, name, accessLevel, password);
 }
 
-function addUser(id, name, accessLevel, password) {
-	const reference = ref(database);
-	get(child(reference, 'users/' + id)).then((snapshot) => {
-		if (snapshot.exists()) {
-			alert("User Id is currently in use, Please choose a new ID");
-		} else {
-			const reference = ref(database, 'users/' + id);
-			set(reference, { Name: name, AccessLevel: accessLevel, Password: password }).then(() => {
-				alert("User has been added");
-			}).catch((error) => {
-				alert("An error occured \n Code:" + error.code);
-			});
-		}
-	});
+async function addUser(UID, name, accessLevel, password) {
+    const docRef = doc(database, "users", UID);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        alert(UID + " Currently in use; Please select a new one")
+    } else {
+        await setDoc(docRef, {
+            Name: name,
+            AccessLevel: accessLevel,
+            Password: password
+        });
+        alert("Account Created with " + UID)
+    }
 }
-function searchUsers(id, callbackFunction) {
-	const reference = ref(database);
-	get(child(reference, 'users/' + id)).then((snapshot) => {
-		if (snapshot.exists()) {
-			const user = snapshot.val();
-			callbackFunction(id, user);
-		} else {
-			alert("No account is asocatied with Id:" + id);
-		}
-	}).catch((error) => {
-		console.error(error);
-	})
+
+async function searchUser(UID, callbackfunction) {
+    const docRef = doc(database, "users", UID);
+    const snapshot = await getDoc(docRef);
+    if (snapshot.exists()) {
+        callbackfunction(UID, snapshot.data());
+    } else {
+        alert("No account associated with " + UID);
+    }
 }
-function updateUser(id, fieldToUpdate, newData) {
-	const reference = ref(database);
-	get(child(reference, 'users/' + id)).then((snapshot) => {
-		if (snapshot.exists()) {
-			const reference = ref(database, 'users/' + id + "/" + fieldToUpdate)
-			set(reference, newData).then(() => {
-				alert("ID:" + id + " " + fieldToUpdate + " has been updated to: " + newData);
-			}).catch((error) => {
-				alert("An error occured \n Code:" + error.code);
-			});
-		} else {
-			alert("No account is asocatied with Id:" + id);
-		}
-	});
+
+async function deleteUser(UID) {
+    const docRef = doc(database, "users", UID);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        deleteDoc(docRef);
+        alert("Deleted account associated with " + UID);
+    } else {
+        alert("No account associated with " + UID);
+    }
 }
-function deleteUser(id) {
-	const reference = ref(database);
-	get(child(reference, 'users/' + id)).then((snapshot) => {
-		if (snapshot.exists()) {
-			const reference = ref(database, "users/" + id);
-			set(reference, null).then(() => {
-				alert("User with ID:" + id + " has been deleted")
-			}).catch((error) => {
-				alert("An error occured \n Code:" + error.code);
-			})
-		} else {
-			alert("No account is asocatied with Id:" + id);
-		}
-	})
+async function updateUser(UID, fieldToUpdate, newData) {
+    const docRef = doc(database, "users", UID);
+    if (fieldToUpdate === "Name") {
+        setDoc(docRef, { Name: newData }, { merge: true });
+    }
+    if (fieldToUpdate === "AccessLevel") {
+        setDoc(docRef, { AccessLevel: newData }, { merge: true })
+    }
+    if (fieldToUpdate === "Password") {
+        setDoc(docRef, { Password: newData }, { merge: true })
+    }
+}
+
+//IMAGE STORAGE FUNCTIONALITY
+/**
+ * Uploads a single image to the image storage
+ * @param {File} image image to be uploaded
+ */
+export function addImage(image) {
+    imageAdd(image)
+}
+/**
+ * fetches a image, based on supplied name (including '.png' '.jpg' or '.jpeg') and runs a callbackfunction on it
+ * @param {string} imageName 
+ * @param {function} callbackFunction a function that is expecting a http url which is the link to the requested image
+ */
+export function getImage(imageName, callbackFunction) {
+    imageGet(imageName, callbackFunction);
+}
+/**
+ * deletes a image, based on supplied name (including '.png' '.jpg' or '.jpeg')
+ * @param {string} imageName 
+ */
+export function deleteImage(imageName) {
+    Imagedelete(imageName);
+}
+
+function Imagedelete(imageName) {
+    const imgRef = sRef(storage, "images/" + imageName);
+    deleteObject(imgRef).then(() => {
+        alert(imageName + " has been deleted")
+    }).catch((error) => {
+        alert("Error: " + error.code + " has occured, please try again")
+    });
+}
+
+function imageGet(imageName, callbackFunction) {
+    const imgRef = sRef(storage, "images/" + imageName);
+    getDownloadURL(imgRef).then((url) => {
+        callbackFunction(url);
+    })
+}
+
+function imageAdd(image) {
+    const imageRef = sRef(storage, "images/" + image.name);
+    uploadBytes(imageRef, image).then((snapshot) => {
+        console.log(image.name + " Uploaded");
+    });
 }
