@@ -21,7 +21,7 @@ Avalible Functions
 			Creates a "User" in the user database
 
 		userSearch(string:UID, function:callbackFunction)
-			Fetches a single user based on a supplied UID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
+			Fetches a single user based on a supplied UID. While the callbackFunction, typically be a display function, will operate on the result of the fetch
 
 		userUpdate(string:UID, string:fieldToUpdate, string:newData)
 			Updates a single feild of a user with some data
@@ -35,11 +35,20 @@ Avalible Functions
 
 	Entry Functionality:
 
-		exhibitAdd(string:ID, string:title, string:date, string:floor, File[]:images, string:discription, string:status)
+		getKeywords(function:callbackFunction)
+			fetches the list of avaible keywords and passes them as an array to the callbackFunction
+
+		exhibitQuerySearchOR(string:title, string:start year, string:end year, string:keywords, string:status, string:floor, function:callbackFunction)
+			Uses a logical OR search to query the Exhibit database based on the provided parameters.
+			NOTE: if the parameter is not being used in the search leave it as either "", null, or undefined
+			NOTE: The callback function should expect an array of key-value pairs where the key is the Exhibit ID and the value is the corresponding data (for operating on this look at the function "displaySearch" in the example "HTML Firebase Structure Example.html").
+			NOTE: the title string and the string of keywords should have no Punctuation ('.' ',' '!' ect)
+
+		exhibitAdd(string:ID, string:title, string:date, string:floor, File[]:images, string:discription, string:status, string[]:keywords)
 			Ceates an entry in the "exhibit" database while uploading and linking supplied images
 
 		exhibitSearch(string:ID, function:callbackFunction)
-			Fetches a single exhibit from a supplied ID. While the callbackfunction, typically be a display function, will operate on the result of the fetch
+			Fetches a single exhibit from a supplied ID. While the callbackFunction, typically be a display function, will operate on the result of the fetch
 
 		exhibitUpdate(string:ID, string:feildToUpdate, any:newData)
 			Updates a single feild of a exhibitwith some data

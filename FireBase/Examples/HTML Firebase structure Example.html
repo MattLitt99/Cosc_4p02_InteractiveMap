@@ -51,13 +51,33 @@
     <input type="text" id="desc" name="desc"><br><br>
     <label for="status">status:</label>
     <input type="text" id="status" name="status"><br><br>
+    <label for="keywords">keywords:</label>
+    <input type="text" id="keywords" name="keywords"><br><br>
     <label for "imageUpload">Select Images</label>
     <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple="multiple" />
     <input type="button" value="Submit" id="submit2">
   </form>
+  <br><br>
+  <form id="form3">
+    <label>Search</label>
+    <label for="searchTitle">search by title</label>
+    <input type="text" id="searchTitle" name="searchTitle"><br><br>
+    <label for="searchSYear">search by Start Year</label>
+    <input type="text" id="searchSYear" name="searchSYear"><br><br>
+    <label for="searchEYear">search by End Year</label>
+    <input type="text" id="searchEYear" name="searchEYear"><br><br>
+    <label for="searchKeyWords">search by KeyWords</label>
+    <input type="text" id="searchKeyWords" name="searchKeyWords"><br><br>
+    <label for="searchStatus">search by Status</label>
+    <input type="text" id="searchStatus" name="searchStatus"><br><br>
+    <label for="searchFloor">search by Floor</label>
+    <input type="text" id="searchFloor" name="searchFloor"><br><br>
+    <input type="button" value="Search" id="search">
+  </form>
 
   <!-- Note that regular functions that are used with regards to Firebase operations can be either in a regular script tag or in one with 'type ="module"' -->
   <script>
+
     function display(id, data) {
       document.getElementById("idDisplay").textContent = id;
       document.getElementById("nameDisplay").textContent = data.Name;
@@ -75,6 +95,12 @@
       }
     }
 
+    function displaySearch(results) {
+      for (const [ID, data] of Object.entries(results)) {
+        console.log(ID + " => " + data.Title);
+      }
+    }
+
   </script>
 
   <!-- Be sure to have type="module"  apart of script tag other wise importing functions from "FireBaseAccess.js will not work"-->
@@ -82,13 +108,25 @@
     // Note on importing the final location of "FireBaseAccess.js" is likely going to be either in the root of the git repo or in a subfolder
     // if it is in the root of the repo then the import should be the following otherwise it should be "/<subfolder>/FirebaseAccess.js"\
     // in the case of running a local server for varification, then leave it as is
-    import { userAdd, userSearch, userDeleter, userUpdate, exhibitAdd } from "/FirebaseAccess.js";
+    import { userAdd, userSearch, userDeleter, userUpdate, exhibitAdd, exhibitQuerySearchOR } from "/FirebaseAccess.js";
     document.getElementById("submit").addEventListener('click', adder);
     document.getElementById("getUser").addEventListener('click', searcher);
     document.getElementById("updateUser").addEventListener('click', updater);
     document.getElementById("deleteUser").addEventListener('click', deleteID);
 
     document.getElementById("submit2").addEventListener('click', addE);
+
+    document.getElementById("search").addEventListener("click", searchDoc);
+
+    function searchDoc() {
+      const title = document.getElementById("searchTitle").value;
+      const sYear = document.getElementById("searchSYear").value;
+      const eYear = document.getElementById("searchEYear").value;
+      const KeyWords = document.getElementById("searchKeyWords").value;
+      const Status = document.getElementById("searchStatus").value;
+      const floor = document.getElementById("searchFloor").value;
+      exhibitQuerySearchOR(title, sYear, eYear, KeyWords, Status, floor, displaySearch);
+    }
 
     function addE() {
       const EID = document.getElementById("EID").value;
@@ -97,12 +135,14 @@
       const floor = document.getElementById("floor").value;
       const desc = document.getElementById("desc").value;
       const status = document.getElementById("status").value;
-      exhibitAdd(EID, title, date, floor, imageList, desc, status);
+      const keywords = document.getElementById("keywords").value;
+      const keyW = keywords.split(' ');
+      exhibitAdd(EID, title, date, floor, imageList, desc, status, keyW);
     }
 
     function searcher() {
       const uid = document.getElementById("UID").value;
-      userSearch(uid, display)
+      searchUser(uid, display);
 
     }
 
@@ -111,19 +151,22 @@
       const name = document.getElementById("name").value;
       const al = document.getElementById("accessLevel").value;
       const pass = document.getElementById("password").value;
-      userAdd(UID, name, al, pass)
+      addUser(UID, name, al, pass)
     }
 
     function updater() {
       const UID = document.getElementById("UID").value;
       const name = document.getElementById("name").value;
       const al = document.getElementById("accessLevel").value
-      userUpdate(UID, name, al)
+      updateUser(UID, "Name", name)
+      updateUser(UID, "AccessLevel", al)
+      //or
+      userUpdateMany(UID, ["Name", "AccessLevel"], [name, al]);
     }
 
     function deleteID() {
       const UID = document.getElementById("UID").value;
-      userDeleter(UID)
+      deleteUser(UID)
     }
 
   </script>

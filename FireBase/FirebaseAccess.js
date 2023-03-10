@@ -1,15 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getFirestore, setDoc, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { getFirestore, setDoc, getDoc, getDocs, deleteDoc, doc, updateDoc, arrayUnion, query, collection, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
-    authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
-    projectId: "cosc4p02-mesuemmap",
-    storageBucket: "cosc4p02-mesuemmap.appspot.com",
-    messagingSenderId: "235500180144",
-    appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
-    databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
+    apiKey: "AIzaSyAPDLNi-fm7ZWIpTA4YV5ADGu0LmAhIlsc",
+    authDomain: "test-eb9c5.firebaseapp.com",
+    projectId: "test-eb9c5",
+    storageBucket: "test-eb9c5.appspot.com",
+    messagingSenderId: "821679509264",
+    appId: "1:821679509264:web:d0765a4cf49ebcaf2d1f95",
+    measurementId: "G-QGY7HHEFQS"
 };
 
 
@@ -20,6 +20,38 @@ const storage = getStorage(app);
 
 //EXHIBIT FUNCTIONALITY
 /**
+ * Fetches all known keywords for predictive keyword searches
+ */
+export function getKeywords(callbackFunction) {
+    keywordsGet(callbackFunction)
+}
+/**
+ * Queries the Exhibit database based on the provided parameters with a logical OR ; If a parameters is not to be used in the search then set it as null
+ * @param {string} title 
+ * @param {string} sYear 
+ * @param {string} eYear 
+ * @param {string} keywords 
+ * @param {string} status 
+ * @param {int} floor 
+ * @param {function} callbackFunction
+ */
+export function exhibitQuerySearchOR(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+    querySearchORExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
+}
+/**
+* Queries the Exhibit database based on the provided parameters with a logical AND ; If a parameters is not to be used in the search then set it as null
+* @param {string} title 
+* @param {string} sYear 
+* @param {string} eYear 
+* @param {string} keywords 
+* @param {string} status 
+* @param {int} floor 
+* @param {function} callbackFunction
+*/
+// export function exhibitQuerySearchAND(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+//   querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
+// }
+/**
  * Uses the following parameters to create an entry into the "exhibit" database while uploading and link supplied images
  * @param {*} ID
  * @param {string} title 
@@ -28,9 +60,10 @@ const storage = getStorage(app);
  * @param {File[]} images
  * @param {string} description 
  * @param {string} status
+ * @param {string[]} keywords
  */
-export function exhibitAdd(ID, title, date, floor, images, description, status) {
-    addExhibit(ID, title, date, floor, images, description, status);
+export function exhibitAdd(ID, title, date, floor, images, description, status, keywords) {
+    addExhibit(ID, title, date, floor, images, description, status, keywords);
 }
 /**
  * Updates a single field of an exhibit with some new data
@@ -67,7 +100,114 @@ export function exhibitSearch(ID, callbackFunction) {
 export function exhibitDelete(ID) {
     deleteExhibit(ID);
 }
-async function addExhibit(ID, title, date, floor, images, description, status) {
+
+async function keywordsGet(callbackFunction) {
+    const docRef = doc(database, "Keywords", "Words");
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        callbackFunction(snap.data())
+    }
+}
+async function addKeywords(keywords) {
+    const docRef = doc(database, "Keywords", "Words");
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        keywords.forEach(async element => {
+            await updateDoc(docRef, {
+                Keywords: arrayUnion(element)
+            })
+        });
+
+    } else {
+        //create doc
+        await setDoc(docRef, {
+            Keywords: keywords
+        })
+    }
+}
+async function querySearchORExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+    const docRef = collection(database, "Exhibits")
+    const results = new Array();
+
+    if (title) {
+        title = title.toUpperCase();
+        const titleSplit = title.split(' ');
+        const q = query(docRef, where("Title_Search", "array-contains-any", titleSplit));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    }
+    if (keywords) {
+        keywords = keywords.toUpperCase();
+        const keywordSplit = keywords.split(' ');
+        const q = query(docRef, where("Keywords", "array-contains-any", keywordSplit));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    }
+    if (sYear && eYear) {
+        const q = query(docRef, where("Date", ">=", parseInt(sYear)), where("Date", "<=", parseInt(eYear)));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    } else if (sYear) {
+        const q = query(docRef, where("Date", ">=", parseInt(sYear)));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    } else if (eYear) {
+        const q = query(docRef, where("Date", "<=", parseInt(eYear)));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    }
+    if (status) {
+        const q = query(docRef, where("Status", "==", status));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    }
+    if (floor) {
+        const q = query(docRef, where("Floor", "==", floor));
+        const snap = await getDocs(q);
+        snap.forEach((doc) => {
+            results[doc.id] = doc.data();
+        })
+    }
+    callbackFunction(results)
+}
+//TODO: workon logical AND search
+async function querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+    const docRef = collection(database, "Exhibits");
+    const results = new Array();
+
+    title = title.toUpperCase();
+    const titleSplit = title.split(' ')
+    keywords = keywords.toUpperCase();
+    const keywordSplit = keywords.split(' ');
+
+    const q = query(docRef, where("Title_Search", "array-contains-any", titleSplit),
+        where("Date", ">=", parseInt(sYear)),
+        where("Date", "<=", parseInt(eYear)),
+        where("Status", "==", status),
+        where("Floor", "==", floor));
+
+    const snap = await getDocs(q);
+    snap.forEach((doc) => {
+        results[doc.id] = doc.data();
+    })
+
+    callbackFunction(results);
+
+}
+
+async function addExhibit(ID, title, date, floor, images, description, status, keywords) {
     const docRef = doc(database, "Exhibits", ID);
     const snap = await getDoc(docRef);
     if (snap.exists()) {
@@ -80,16 +220,26 @@ async function addExhibit(ID, title, date, floor, images, description, status) {
             imageNames[i] = element.name;
             imageAdd(element);
         }
+        const titleUpper = title.toUpperCase();
+        const wordsUpper = new Array()
+        keywords.forEach(element => {
+            wordsUpper.push(element.toUpperCase());
+        });
 
+        const titleArray = titleUpper.split(' ');
         //create exhibit
         await setDoc(docRef, {
             Title: title,
-            Date: date,
+            Title_Search: titleArray,
+            Date: parseInt(date),
             Floor: floor,
             Images: imageNames,
             Desc: description,
-            Satus: status
+            Satus: status,
+            Keywords: wordsUpper
         });
+        addKeywords(keywords);
+
         alert("Exhbit Added");
     }
 }
@@ -105,10 +255,12 @@ async function searchExhibits(ID, callbackFunction) {
 async function updateExhibit(ID, fieldToUpdate, newData) {
     const docRef = doc(data, "Exhibits", ID);
     if (fieldToUpdate === "Title") {
-        setDoc(docRef, { Title: newData }, { merge: true })
+        const titleUpper = newData.toUpperCase();
+        const titleArray = titleUpper.split(' ');
+        setDoc(docRef, { Title: newData, Title_Search: titleArray }, { merge: true })
     }
     if (fieldToUpdate === "Date") {
-        setDoc(docRef, { Date: newData }, { merge: true })
+        setDoc(docRef, { Date: parseInt(newData) }, { merge: true })
     }
     if (fieldToUpdate === "Floor") {
         setDoc(docRef, { Floor: newData }, { merge: true })
@@ -128,6 +280,14 @@ async function updateExhibit(ID, fieldToUpdate, newData) {
     }
     if (fieldToUpdate === "Satus") {
         setDoc(docRef, { Satus: newData }, { merge: true })
+    }
+
+    if (fieldToUpdate === "Keywords") {
+        const wordsUpper = new Array()
+        newData.forEach(element => {
+            wordsUpper.push(element.toUpperCase());
+        });
+        setDoc(docRef, { Keywords: wordsUpper }, { merge: true })
     }
 }
 async function deleteExhibit(ID) {
@@ -202,7 +362,6 @@ async function addUser(UID, name, accessLevel, password) {
         alert("Account Created with " + UID)
     }
 }
-
 async function searchUser(UID, callbackfunction) {
     const docRef = doc(database, "users", UID);
     const snapshot = await getDoc(docRef);
@@ -212,7 +371,6 @@ async function searchUser(UID, callbackfunction) {
         alert("No account associated with " + UID);
     }
 }
-
 async function deleteUser(UID) {
     const docRef = doc(database, "users", UID);
     const snap = await getDoc(docRef);
@@ -268,14 +426,12 @@ function Imagedelete(imageName) {
         alert("Error: " + error.code + " has occured, please try again")
     });
 }
-
 function imageGet(imageName, callbackFunction) {
     const imgRef = sRef(storage, "images/" + imageName);
     getDownloadURL(imgRef).then((url) => {
         callbackFunction(url);
     })
 }
-
 function imageAdd(image) {
     const imageRef = sRef(storage, "images/" + image.name);
     uploadBytes(imageRef, image).then((snapshot) => {
