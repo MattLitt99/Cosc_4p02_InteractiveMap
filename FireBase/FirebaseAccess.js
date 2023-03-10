@@ -3,13 +3,13 @@ import { getFirestore, setDoc, getDoc, getDocs, deleteDoc, doc, updateDoc, array
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
-  authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
-  databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com",
-  projectId: "cosc4p02-mesuemmap",
-  storageBucket: "cosc4p02-mesuemmap.appspot.com",
-  messagingSenderId: "235500180144",
-  appId: "1:235500180144:web:c021f7d72c3d92a380a175"
+    apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
+    authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
+    databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com",
+    projectId: "cosc4p02-mesuemmap",
+    storageBucket: "cosc4p02-mesuemmap.appspot.com",
+    messagingSenderId: "235500180144",
+    appId: "1:235500180144:web:c021f7d72c3d92a380a175"
 };
 
 
@@ -48,9 +48,9 @@ export function exhibitQuerySearchOR(title, sYear, eYear, keywords, status, floo
 * @param {int} floor 
 * @param {function} callbackFunction
 */
-// export function exhibitQuerySearchAND(title, sYear, eYear, keywords, status, floor, callbackFunction) {
-//   querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
-// }
+export function exhibitQuerySearchAND(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+    querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
+}
 /**
  * Uses the following parameters to create an entry into the "exhibit" database while uploading and link supplied images
  * @param {*} ID
@@ -191,8 +191,17 @@ async function querySearchANDExhibit(title, sYear, eYear, keywords, status, floo
     const titleSplit = title.split(' ')
     keywords = keywords.toUpperCase();
     const keywordSplit = keywords.split(' ');
+    const titleKeyword = titleSplit.concat(keywords);
+    const titleKeyword2 = [...new Set(titleKeyword)]
 
-    const q = query(docRef, where("Title_Search", "array-contains-any", titleSplit),
+    if (!sYear) {
+        sYear = 0;
+    }
+    if (!eYear) {
+        eYear = 999999
+    }
+
+    const q = query(docRef, where("Title_Keyword_Search", "array-contains-any", titleKeyword2),
         where("Date", ">=", parseInt(sYear)),
         where("Date", "<=", parseInt(eYear)),
         where("Status", "==", status),
@@ -220,6 +229,9 @@ async function addExhibit(ID, title, date, floor, images, description, status, k
             imageNames[i] = element.name;
             imageAdd(element);
         }
+
+        title = title.replace('  ', ' ');
+
         const titleUpper = title.toUpperCase();
         const wordsUpper = new Array()
         keywords.forEach(element => {
@@ -227,6 +239,8 @@ async function addExhibit(ID, title, date, floor, images, description, status, k
         });
 
         const titleArray = titleUpper.split(' ');
+        const titleKeyword = titleArray.concat(wordsUpper);
+        const titleKeyword2 = [...new Set(titleKeyword)]
         //create exhibit
         await setDoc(docRef, {
             Title: title,
@@ -236,7 +250,8 @@ async function addExhibit(ID, title, date, floor, images, description, status, k
             Images: imageNames,
             Desc: description,
             Satus: status,
-            Keywords: wordsUpper
+            Keywords: wordsUpper,
+            Title_Keyword_Search: titleKeyword2
         });
         addKeywords(keywords);
 
