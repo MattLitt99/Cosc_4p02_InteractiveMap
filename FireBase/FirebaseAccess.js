@@ -184,35 +184,146 @@ async function querySearchORExhibit(title, sYear, eYear, keywords, status, floor
 }
 //TODO: workon logical AND search
 async function querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction) {
-    const docRef = collection(database, "Exhibits");
+    const docRef = collection(database, "Exhibits")
     const results = new Array();
 
     title = title.toUpperCase();
     const titleSplit = title.split(' ')
     keywords = keywords.toUpperCase();
     const keywordSplit = keywords.split(' ');
-    const titleKeyword = titleSplit.concat(keywords);
+    const titleKeyword = titleSplit.concat(keywordSplit);
     const titleKeyword2 = [...new Set(titleKeyword)]
 
-    if (!sYear) {
-        sYear = 0;
-    }
-    if (!eYear) {
-        eYear = 999999
+    var q;
+    if (titleKeyword2 && sYear && eYear && status && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Date", "<=", eYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    } else if (titleKeyword2 && sYear && status && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    } else if (titleKeyword2 && eYear && status && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", "<=", eYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
     }
 
-    const q = query(docRef, where("Title_Keyword_Search", "array-contains-any", titleKeyword2),
-        where("Date", ">=", parseInt(sYear)),
-        where("Date", "<=", parseInt(eYear)),
-        where("Status", "==", status),
-        where("Floor", "==", floor));
+    else if (titleKeyword2 && sYear && eYear && status) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Date", "<=", eYear),
+            where("Status", "==", status));
+    } else if (titleKeyword2 && sYear && status) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Status", "==", status));
+    } else if (titleKeyword2 && eYear && status) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", "<=", eYear),
+            where("Status", "==", status));
+    }
 
+    else if (titleKeyword2 && sYear && eYear && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Date", "<=", eYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    } else if (titleKeyword2 && sYear && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Floor", "==", floor));
+    } else if (titleKeyword2 && eYear && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", "<=", eYear),
+            where("Floor", "==", floor));
+    }
+
+    else if (titleKeyword2 && status && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    }
+
+    else if (sYear && eYear && status && floor) {
+        q = query(docRef, where("Date", ">=", sYear),
+            where("Date", "<=", eYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    } else if (sYear && status && floor) {
+        q = query(docRef, where("Date", ">=", sYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    } else if (eYear && status && floor) {
+        q = query(docRef, where("Date", "<=", eYear),
+            where("Status", "==", status),
+            where("Floor", "==", floor));
+    }
+
+    else if (titleKeyword2 && sYear && eYear) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear),
+            where("Date", "<=", eYear));
+    } else if (titleKeyword2 && sYear) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", ">=", sYear));
+    } else if (titleKeyword2 && eYear && status && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Date", "<=", eYear));
+    }
+
+    else if (titleKeyword2 && status) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Status", "==", status));
+    }
+
+    else if (titleKeyword2 && floor) {
+        q = query(docRef, where("Title_Keyword_Search", "arrays-contains-any", titleKeyword2),
+            where("Floor", "==", floor));
+    }
+
+    else if (sYear && eYear && status) {
+        q = query(docRef, where("Date", ">=", sYear),
+            where("Date", "<=", eYear),
+            where("Status", "==", status));
+    } else if (sYear && status) {
+        q = query(docRef, where("Date", ">=", sYear),
+            where("Status", "==", status));
+    } else if (eYear && status) {
+        q = query(docRef, where("Date", "<=", eYear),
+            where("Status", "==", status));
+    }
+
+    else if (sYear && eYear && floor) {
+        q = query(docRef, where("Date", ">=", sYear),
+            where("Date", "<=", eYear),
+            where("Floor", "==", floor));
+    } else if (sYear && floor) {
+        q = query(docRef, where("Date", ">=", sYear),
+            where("Floor", "==", floor));
+    } else if (eYear && floor) {
+        q = query(docRef, where("Date", "<=", eYear),
+            where("Floor", "==", floor));
+    }
+
+    else if (status && floor) {
+        q = query(docRef, where("Status", "==", status),
+            where("Floor", "==", floor));
+    }
+    else {
+        //quering a single field we can use OR
+        querySearchORExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
+    }
     const snap = await getDocs(q);
     snap.forEach((doc) => {
-        results[doc.id] = doc.data();
-    })
-
-    callbackFunction(results);
+        results[doc.id] = doc.data
+    });
+    callbackFunction(results)
 
 }
 
@@ -249,7 +360,7 @@ async function addExhibit(ID, title, date, floor, images, description, status, k
             Floor: floor,
             Images: imageNames,
             Desc: description,
-            Satus: status,
+            Status: status,
             Keywords: wordsUpper,
             Title_Keyword_Search: titleKeyword2
         });
@@ -294,7 +405,7 @@ async function updateExhibit(ID, fieldToUpdate, newData) {
         setDoc(docRef, { Desc: newData }, { merge: true })
     }
     if (fieldToUpdate === "Satus") {
-        setDoc(docRef, { Satus: newData }, { merge: true })
+        setDoc(docRef, { Status: newData }, { merge: true })
     }
 
     if (fieldToUpdate === "Keywords") {
