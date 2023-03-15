@@ -38,6 +38,17 @@ Avalible Functions
 		getKeywords(function:callbackFunction)
 			fetches the list of avaible keywords and passes them as an array to the callbackFunction
 
+		exhibitGetAll(function:callbackFunction)
+			Fetches all exhibits in the database
+			NOTE: callbackFunction is a function that expects an array that is denoted by {exhibit.id:[data],..., exhibit.id:[data]}
+
+		exhibitQuerySearchAND(string:title, string:start year, string:end year, string:keywords, string:status, string:floor, function:callbackFunction)
+			Uses a logical AND search to query the Exhibit database based on the provided parameters.
+			NOTE: if only 1 search parameter is used then it will automatically use "exhibitQuerySearchOR" as the results would be the same
+			NOTE: if the parameter is not being used in the search leave it as either "", null, or undefined
+			NOTE: The callback function should expect an array of key-value pairs where the key is the Exhibit ID and the value is the corresponding data (for operating on this look at the function "displaySearch" in the example "HTML Firebase Structure Example.html").
+			NOTE: the title string and the string of keywords should have no Punctuation ('.' ',' '!' ect)
+
 		exhibitQuerySearchOR(string:title, string:start year, string:end year, string:keywords, string:status, string:floor, function:callbackFunction)
 			Uses a logical OR search to query the Exhibit database based on the provided parameters.
 			NOTE: if the parameter is not being used in the search leave it as either "", null, or undefined

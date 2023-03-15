@@ -26,6 +26,13 @@ export function getKeywords(callbackFunction) {
     keywordsGet(callbackFunction)
 }
 /**
+ * Fetches all exhibits in the database
+ * @param {function} callbackFunction a function that expects an array that is denoted by {exhibit.id:[data],..., exhibit.id:[data]}
+ */
+export function exhibitGetAll(callbackFunction) {
+    getAllExhibits(callbackFunction)
+}
+/**
  * Queries the Exhibit database based on the provided parameters with a logical OR ; If a parameters is not to be used in the search then set it as null
  * @param {string} title 
  * @param {string} sYear 
@@ -124,6 +131,14 @@ async function addKeywords(keywords) {
             Keywords: keywords
         })
     }
+}
+async function getAllExhibits(callbackFunction) {
+    const snap = await getDocs(collection(database, "Exhibits"));
+    const exhibit = new Array();
+    snap.forEach((doc) => {
+        exhibit[doc.id] = doc.data();
+    })
+    callbackFunction(exhibit);
 }
 async function querySearchORExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction) {
     const docRef = collection(database, "Exhibits")
