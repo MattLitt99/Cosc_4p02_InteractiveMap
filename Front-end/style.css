@@ -18,7 +18,6 @@ body, textarea {
 
 body {
     text-align: center;
-    /* min-height: 2000px; */
 }
 
 textarea {
@@ -26,12 +25,13 @@ textarea {
 }
 
 nav {
-  background-color: white;
   text-align: right;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-right: 5%;
   padding-left: 20px;
+  height: 75px;
+  vertical-align: text-bottom;
 }
 
 nav div{
@@ -40,11 +40,28 @@ nav div{
 
 nav li{
     padding: 0 20px;
+    vertical-align: baseline;
 }
 
 ul, li {
   list-style: none;
   display: inline-block;
+}
+.logoContainer{
+  display: block;
+}
+
+.logoContainer img {
+  display: inline-block;
+  width: 120px;
+  float: left;
+  margin-right: auto;
+}
+
+.navLinksContainer {
+  margin-top: 30px;
+  display: inline-block;
+  vertical-align: text-bottom;
 }
 
 a {
@@ -254,4 +271,11 @@ footer {
 
 footer p {
   margin: 10px;
+}
+
+/* For small screen sizes */
+@media only screen and (max-width: 600px) {
+  nav li {
+    padding: 0 5px;
+  }
 }
