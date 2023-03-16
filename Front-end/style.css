@@ -117,15 +117,21 @@ a:link {
   margin: 0 20px;
 }
 
-.icon {
+.navIcon {
   color: #08244a;
-}
-
-.navUser {
   width: 25px;
   vertical-align: middle;
   margin: 0 5px;
-  color: white;
+}
+
+.navUser {
+  /* color: white; */
+}
+
+#navSearchBar{
+  width: 250px;
+  padding: 6px 10px;
+  display: none;
 }
 
 ul.artifactsList{

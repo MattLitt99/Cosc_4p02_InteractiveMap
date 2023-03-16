@@ -1,5 +1,4 @@
 // Filler data for the front end 
-
 exhibit = 
 { 
     name:"Lives of the Gods: Divinity in Maya Art",
@@ -79,4 +78,22 @@ function saveExhibit() {
     document.getElementById("editContainer").style.display = "none";
 
     viewLoad();
+}
+
+//Handles functionality for searching in the navBar
+function navSearch(){
+    var temp;
+    temp = document.getElementById("navSearchBar");
+    // If the search textbox is invisible then make it visible
+    if ( temp.style.display == "" ) {
+        temp.style.display = "inline-block";
+    }
+    //if searchbar has no text in it and icon is clicked, make searchbar invisible
+    else if ( temp.value == "" ) {
+        temp.style.display = "";
+    }
+    // If searchbar is visible and has text complete the search
+    else {
+        console.log("Search for "+temp.value);
+    }
 }
