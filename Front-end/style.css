@@ -270,6 +270,10 @@ th {
 }
 
 /* Exhibit List Page Styles */
+#exhibitListContainer {
+  margin-bottom: 300px;
+}
+
 #exhibitListContainer td, #exhibitListContainer th {
   padding: 10px;
 }
