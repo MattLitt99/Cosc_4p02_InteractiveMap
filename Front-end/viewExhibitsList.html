@@ -25,7 +25,22 @@
       </div>
   </nav>
 </header>
-<body>
+<body onload="loadExhibitsList()">
+  <div id="exhibitListContainer">
+    <div class="AddExhibitContainer">
+    <button id="addExhibit" class="button solid">Add Exhibit</button>
+  </div>
+    <table id = "viewExhibitsTable">
+      <tr>
+        <th> ID </th>
+        <th> Name </th>
+        <th> Year </th>
+        <th> Status </th>
+        <th> Room Number </th>
+      </tr>
+    </table>
+  </div>
+  
   <script src="script.js"></script>
 </body>
 

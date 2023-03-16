@@ -215,6 +215,18 @@ input[type=text], input[type=password], textarea, #status {
   display: none;
 }
 
+table, td, tr, td, th {
+  border: 1px solid rgb(175, 175, 175);
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  color: #08244a;
+  font-size: 16px;
+}
+
+
 /* Login Page specific Styles */
 .error {
   color: rgb(163, 15, 15);
@@ -253,17 +265,40 @@ input[type=text], input[type=password], textarea, #status {
   min-height: 350px;
 }
 
-table, td, tr, td {
-  border-bottom: 1px solid rgb(175, 175, 175);
-  border-collapse: collapse;
-}
-
-th {
-  color: #08244a;
-}
-
 #accountContainer td,  #accountContainer th {
   padding: 10px 100px;
+}
+
+/* Exhibit List Page Styles */
+#exhibitListContainer td, #exhibitListContainer th {
+  padding: 10px;
+}
+
+#exhibitListContainer table {
+  width: 70%;
+  margin: 0 auto;
+}
+#viewExhibitsTable a {
+  color: black;
+}
+
+#viewExhibitsTable a:hover{
+  color: #c51a17;
+}
+
+#exhibitListContainer tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+.AddExhibitContainer {
+  width: 70%;
+  margin: 0 auto;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+#addExhibit {
+  /* text-align: right; */
 }
 
 /* Footer Styles */
