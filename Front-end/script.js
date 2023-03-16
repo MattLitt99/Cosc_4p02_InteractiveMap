@@ -5,6 +5,7 @@ exhibit =
     name:"Lives of the Gods: Divinity in Maya Art",
     status:"0", 
     roomNumber:"303",
+    year:"500 B.C",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 };
 
@@ -25,12 +26,16 @@ function viewLoad(){
     document.getElementById("exhibitDescription").innerHTML = exhibit.description;
     document.getElementById("roomNumberDisplay").innerHTML = '<span class="bold"> Room Number: </span> '+exhibit.roomNumber;
     document.getElementById("status").selectedIndex = exhibit.status;
+    document.getElementById("yearDisplay").innerHTML = '<span class="bold"> Year: </span> '+exhibit.year;
 
     //populates name field
     document.getElementById("exhibitNameField").value=exhibit.name;
 
     //populates room number field
     document.getElementById("roomNumField").value=exhibit.roomNumber;
+
+    //populates room number field
+    document.getElementById("yearField").value=exhibit.year;
 
     //Populates status dropdown field
     if ( exhibit.status == "0" ) {
@@ -62,6 +67,9 @@ function saveExhibit() {
 
     temp = document.getElementById("roomNumField");
     exhibit.roomNumber = temp.value;
+
+    temp = document.getElementById("yearField");
+    exhibit.year = temp.value;
 
     temp = document.getElementById("descriptionTextarea");
     exhibit.description = temp.value;
