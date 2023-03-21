@@ -68,6 +68,7 @@ function viewLoad(){
 
     //Write the information from the javascript object to the HTML document
     document.getElementById("exhibitHeadline").innerHTML = exhibit.name;
+    document.getElementById("idDisplay").innerHTML = '<span class="bold"> Exhibit ID: </span> '+exhibit.id;
     document.getElementById("exhibitDescription").innerHTML = exhibit.description;
     document.getElementById("roomNumberDisplay").innerHTML = '<span class="bold"> Room Number: </span> '+exhibit.roomNumber;
     document.getElementById("status").selectedIndex = exhibit.status;
@@ -188,4 +189,8 @@ function loadExhibitsList(){
         table = document.getElementById("viewExhibitsTable");
         table.appendChild(row);
      }
+}
+
+function addExhibit(){
+    //code for adding exhibit the database and linking to the viewExhibit page populated with that data
 }
