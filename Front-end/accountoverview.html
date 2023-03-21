@@ -8,17 +8,19 @@
   </head>
   <header>
     <nav>
-        <!-- Logo -->
-        <!-- <img src="https://www.notlmuseum.ca/shared/skins/default/images/logo.svg" class="logo"> -->
-        <div>
+      <div class="logoContainer">
+        <img src="images/logo.svg">
+      </div>
+        <div class="navLinksContainer">
             <ul>
+                <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits"> <a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg" ></a></li>
                 <li><a href=""> Map </a></li>
-                <li><a href=""> Exhibit List </a></li>
-                <li><a href=""> Account  <img class="navUser" src="images/user.png"></a></li>
+                <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
+                <li><a href="accountoverview.html"> Account  <img class="navUser navIcon" src="images/user.png"></a></li>
             </ul>
         </div>
     </nav>
-  </header>
+</header>
   <body>
     <div id="accountContainer">
       <table>
@@ -36,6 +38,7 @@
         </tr>
       </table>
     </div>
+    <script src="script.js"></script>
   </body>
   <footer>
     <p>43 Castlereagh Street, PO Box 208

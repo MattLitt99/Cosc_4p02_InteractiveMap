@@ -18,7 +18,6 @@ body, textarea {
 
 body {
     text-align: center;
-    /* min-height: 2000px; */
 }
 
 textarea {
@@ -26,12 +25,13 @@ textarea {
 }
 
 nav {
-  background-color: white;
   text-align: right;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-right: 5%;
   padding-left: 20px;
+  height: 75px;
+  vertical-align: text-bottom;
 }
 
 nav div{
@@ -40,11 +40,28 @@ nav div{
 
 nav li{
     padding: 0 20px;
+    vertical-align: baseline;
 }
 
 ul, li {
   list-style: none;
   display: inline-block;
+}
+.logoContainer{
+  display: block;
+}
+
+.logoContainer img {
+  display: inline-block;
+  width: 120px;
+  float: left;
+  margin-right: auto;
+}
+
+.navLinksContainer {
+  margin-top: 30px;
+  display: inline-block;
+  vertical-align: text-bottom;
 }
 
 a {
@@ -100,15 +117,21 @@ a:link {
   margin: 0 20px;
 }
 
-.icon {
+.navIcon {
   color: #08244a;
-}
-
-.navUser {
   width: 25px;
   vertical-align: middle;
   margin: 0 5px;
-  color: white;
+}
+
+.navUser {
+  /* color: white; */
+}
+
+#navSearchBar{
+  width: 250px;
+  padding: 6px 10px;
+  display: none;
 }
 
 ul.artifactsList{
@@ -192,6 +215,18 @@ input[type=text], input[type=password], textarea, #status {
   display: none;
 }
 
+table, td, tr, td, th {
+  border: 1px solid rgb(175, 175, 175);
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  color: #08244a;
+  font-size: 16px;
+}
+
+
 /* Login Page specific Styles */
 .error {
   color: rgb(163, 15, 15);
@@ -230,17 +265,44 @@ input[type=text], input[type=password], textarea, #status {
   min-height: 350px;
 }
 
-table, td, tr, td {
-  border-bottom: 1px solid rgb(175, 175, 175);
-  border-collapse: collapse;
-}
-
-th {
-  color: #08244a;
-}
-
 #accountContainer td,  #accountContainer th {
   padding: 10px 100px;
+}
+
+/* Exhibit List Page Styles */
+#exhibitListContainer {
+  margin-bottom: 300px;
+}
+
+#exhibitListContainer td, #exhibitListContainer th {
+  padding: 10px;
+}
+
+#exhibitListContainer table {
+  width: 70%;
+  margin: 0 auto;
+}
+#viewExhibitsTable a {
+  color: black;
+}
+
+#viewExhibitsTable a:hover{
+  color: #c51a17;
+}
+
+#exhibitListContainer tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+.AddExhibitContainer {
+  width: 70%;
+  margin: 0 auto;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+#addExhibit {
+  /* text-align: right; */
 }
 
 /* Footer Styles */
@@ -254,4 +316,11 @@ footer {
 
 footer p {
   margin: 10px;
+}
+
+/* For small screen sizes */
+@media only screen and (max-width: 600px) {
+  nav li {
+    padding: 0 5px;
+  }
 }

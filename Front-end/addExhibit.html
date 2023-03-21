@@ -28,32 +28,17 @@
         </div>
     </nav>
 </header>
-<body onload="viewLoad()">
-    <div id="viewContainer"> 
-        <div class="viewExhibitContainer"> 
-            <h1 id="exhibitHeadline">  </h1>
-            <ul class="subHead">
-                <li id="idDisplay"> </li>
-            <br>
-                <li> <span class="bold"> Status: </span> Active  </li>
-                <li id="roomNumberDisplay">  </li>
-                <li id="yearDisplay">  </li>
-            </ul>
-            <br>
-            <img class="exhibitImage" src="https://scottsdalepublicart.org/wp-content/uploads/2019/07/SPA-Exhibition-Placeholder-WEB-768x512.jpg">
-    
-            <div> 
-                <p id="exhibitDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-            </div>
-            <a class="button outlined" onclick="openEditor()"> Edit Exhibit </a>
-        </div>
-    </div>
-    <div id="editContainer">
+<body">
+    <div id="addContainer">
         <div class="viewExhibitContainer"> 
           <input type="text" id="exhibitNameField" class="textField"> 
           <ul class="subHead">
-                <li> <span class="bold"> Status: </span>  
-                  <select id="status">
+            <li> <span class="bold"> Exhibit ID: </span>  
+                <input type="text" class="textField" id="idField"> 
+            </li>
+            <br>
+            <li> <span class="bold"> Status: </span>  
+                <select id="status">
                     <option value="active">Active</option>
                     <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
                     <option value="inactive-viewing"> Inactive - Private Viewing</option>
@@ -72,7 +57,7 @@
           <div> 
             <textarea wrap="hard" id="descriptionTextarea" rows="7"> </textarea>
           </div>
-          <a class="button solid" id="saveExhibit" onclick="saveExhibit()"> Save Exhibit</a>
+          <a class="button solid" id="saveExhibit" onclick="addExhibit()"> Save Exhibit</a>
         </div>
       </div>
     <script src="script.js"></script>

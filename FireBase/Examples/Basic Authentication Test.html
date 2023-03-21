@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test 1</title>
+</head>
+<body>
+    <h1>Auth Test 1</h1>
+    <div>
+        <h2 id="loggedIn">Welcome</h2>
+    </div>
+    <div>
+        <p>Username</p>
+        <input id="getName" type="text">
+        <p>Password</p>
+        <input id="getPass" type="text">
+    </div>
+
+    <button id="login">Login</button>
+    <button id="logout">Logout</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getFirestore, setDoc, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+        import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+        import { getAuth, setPersistence, signInWithEmailAndPassword, signOut, browserSessionPersistence,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
+            authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
+            projectId: "cosc4p02-mesuemmap",
+            storageBucket: "cosc4p02-mesuemmap.appspot.com",
+            messagingSenderId: "235500180144",
+            appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
+            databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
+        };
+
+        
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getFirestore(app);
+        const storage = getStorage(app);
+
+        auth.onAuthStateChanged(user => {
+          if(user != null){
+            checkAccess(user)
+            
+          }
+        });
+
+        async function checkAccess(user){
+            var UID = user.uid;
+            const docRef = doc(database, "users", UID);
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+                    const accessLevel = snap.data().AccessLevel
+                    document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel;
+            }
+        }
+
+        
+
+        async function login () {
+            var username = document.getElementById("getName").value;
+            username = username+"@gmail.com";
+            const password = document.getElementById("getPass").value;
+            try {
+                const userCred = await setPersistence(auth, browserSessionPersistence).then(() =>{
+                    return signInWithEmailAndPassword(auth, username, password);
+                });
+                console.log("LOGIN SUCCESSFUL\n");
+                const UID = userCred.user.uid;
+                console.log(UID);
+
+                const docRef = doc(database, "users", UID);
+                const snap = await getDoc(docRef);
+               
+                if (snap.exists()) {
+                    const accessLevel = snap.data().AccessLevel
+                    console.log(accessLevel);
+                    document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel;
+                } else {
+                    alert("No user id with " + UID);
+                }
+            } catch (error) {
+                console.log("UNSUCCESSFUL")
+            }
+        }
+
+        function logout() {
+            signOut(auth).then(() => {
+                console.log("SIGNED OUT\n");
+                location.reload();
+            })
+        }
+
+        document.getElementById("login").addEventListener("click", login);
+        document.getElementById("logout").addEventListener("click", logout);
+        // */
+
+
+    </script>
+</body>
+</html>

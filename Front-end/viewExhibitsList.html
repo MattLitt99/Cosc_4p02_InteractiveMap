@@ -5,25 +5,46 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href="style.css" rel="stylesheet" type="text/css" />
-  <!-- For icons -->
-  <!-- <script src="https://kit.fontawesome.com/03c95c5ce3.js" crossorigin="anonymous"></script> -->
-  
 </head>    
 
 <header>
-    <nav>
-        <!-- Logo -->
-        <!-- <img src="https://www.notlmuseum.ca/shared/skins/default/images/logo.svg" class="logo"> -->
-        <div>
-            <ul>
-                <li><a href=""> Map </a></li>
-                <li><a href=""> Exhibit List </a></li>
-                <li><a href=""> Login  <img class="navUser" src="images/user.png"></a></li>
-            </ul>
-        </div>
-    </nav>
+  <nav>
+    <div class="logoContainer">
+      <img src="images/logo.svg">
+    </div>
+      <div class="navLinksContainer">
+          <ul>
+              <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits"> <a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg" ></a></li>
+              <li><a href=""> Map </a></li>
+              <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
+              <li><a href="accountoverview.html"> Account  <img class="navUser navIcon" src="images/user.png"></a></li>
+          </ul>
+      </div>
+  </nav>
 </header>
-
-
-
+<body onload="loadExhibitsList()">
+  <div id="exhibitListContainer">
+    <div class="AddExhibitContainer">
+    <a href="addExhibit.html" id="addExhibit" class="button solid">Add Exhibit</a>
+  </div>
+    <table id = "viewExhibitsTable">
+      <tr>
+        <th> ID </th>
+        <th> Name </th>
+        <th> Year </th>
+        <th> Status </th>
+        <th> Room Number </th>
+      </tr>
+    </table>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+<footer>
+	<p>43 Castlereagh Street, PO Box 208
+		Niagara-on-the-Lake, ON L0S 1J0
+		Canada
+	</p>
+	<p> Copyright © Niagara-on-the-Lake Museum 2023</p>
+</footer>
 </html>
