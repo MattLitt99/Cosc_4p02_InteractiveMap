@@ -11,7 +11,6 @@ How to use FirebaseAccess.js:
 
 		NOTE: depending on how the final project structure is done, change "/FirebaseAccess.js" to "/<subfolder>/Firebase.js"
 
-
 Avalible Functions
 	Inorder to maintain simplicity and avoid errors, a simple intermidary call functions were used (denoted with "export" with in the code).
 
