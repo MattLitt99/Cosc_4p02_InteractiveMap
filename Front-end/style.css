@@ -305,7 +305,22 @@ th {
   /* text-align: right; */
 }
 
-/* Footer Styles */
+/* Search Page Styles */
+#searchContainer {
+  height: 600px;
+}
+
+#mainSearchBar {
+  width: 50%;
+  font-size: 22px;
+  padding: 10px 15px;
+}
+
+.mainSearchIcon {
+  width: 40px;
+  vertical-align: middle;
+}
+  /* Footer Styles */
 
 footer {
   background-color: #8d8d8d;
