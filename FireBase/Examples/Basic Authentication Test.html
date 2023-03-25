@@ -12,7 +12,7 @@
         <h2 id="loggedIn">Welcome</h2>
     </div>
     <div>
-        <p>Username</p>
+        <p>User ID</p>
         <input id="getName" type="text">
         <p>Password</p>
         <input id="getPass" type="text">
@@ -31,7 +31,7 @@
 
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        
+        // /*
         const firebaseConfig = {
             apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
             authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
@@ -41,8 +41,7 @@
             appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
             databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
         };
-
-        
+        // */
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -51,54 +50,68 @@
         const storage = getStorage(app);
 
         auth.onAuthStateChanged(user => {
-          if(user != null){
-            checkAccess(user)
-            
-          }
+            if(user != null){
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let userInfo = decodedCookie.split('/');
+                var UID = userInfo[0];
+                var name = userInfo[1];
+                var accessLevel = userInfo[2];
+                
+                if(user.uid == userInfo[0]){
+                    document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel+" "+name;
+                    
+
+                }
+                
+            }
         });
+
 
         async function checkAccess(user){
             var UID = user.uid;
             const docRef = doc(database, "users", UID);
             const snap = await getDoc(docRef);
             if (snap.exists()) {
-                    const accessLevel = snap.data().AccessLevel
-                    document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel;
+                const accessLevel = snap.data().AccessLevel
+                const name = snap.data().Name;
+                document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel+" "+name;
             }
         }
-
-        
+       
 
         async function login () {
-            var username = document.getElementById("getName").value;
-            username = username+"@gmail.com";
+            var UID = document.getElementById("getName").value;
             const password = document.getElementById("getPass").value;
+
+            const docRef = doc(database, "users", UID);
+            const snap = await getDoc(docRef);
+
             try {
+                if(password == snap.data().Password){
+                var username = snap.data().Name;
+                username = username+"@gmail.com";
                 const userCred = await setPersistence(auth, browserSessionPersistence).then(() =>{
                     return signInWithEmailAndPassword(auth, username, password);
                 });
-                console.log("LOGIN SUCCESSFUL\n");
-                const UID = userCred.user.uid;
-                console.log(UID);
-
-                const docRef = doc(database, "users", UID);
-                const snap = await getDoc(docRef);
-               
-                if (snap.exists()) {
-                    const accessLevel = snap.data().AccessLevel
-                    console.log(accessLevel);
-                    document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel;
-                } else {
-                    alert("No user id with " + UID);
-                }
-            } catch (error) {
-                console.log("UNSUCCESSFUL")
+                const uid = userCred.user.uid;
+                const accessLevel = snap.data().AccessLevel
+                const name = snap.data().Name;
+                document.cookie = uid+"/"+name+"/"+accessLevel;
+                alert("Welcome "+accessLevel+" "+name)
+                document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel+" "+name;
             }
+            } catch (error) {
+                alert("incorrect User Credentials");
+            }
+            
+            
         }
 
         function logout() {
             signOut(auth).then(() => {
                 console.log("SIGNED OUT\n");
+                document.cookie="///";
+                alert("Signed out")
                 location.reload();
             })
         }
