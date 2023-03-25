@@ -1,0 +1,19 @@
+{
+  "name": "cosc_4p02_interactivemap",
+  "version": "1.0.0",
+  "description": "An interactive map for Niagara-on-the-Lake Museum.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattLitt99/Cosc_4p02_InteractiveMap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MattLitt99/Cosc_4p02_InteractiveMap/issues"
+  },
+  "homepage": "https://github.com/MattLitt99/Cosc_4p02_InteractiveMap#readme"
+}

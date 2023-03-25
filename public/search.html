@@ -1,0 +1,42 @@
+<!--This is the account overview page-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Account</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<header>
+  <nav>
+    <div class="logoContainer">
+      <img src="images/logo.svg">
+    </div>
+    <div class="navLinksContainer">
+      <ul>
+        <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits"> <a href="#"
+            onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a></li>
+        <li><a href="Index.html"> Map </a></li>
+        <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
+        <li><a href="accountoverview.html"> Account <img class="navUser navIcon" src="images/user.png"></a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<body onload="loadSearch()">
+  <div id="searchContainer">
+    <input type="text" class="textField" id="mainSearchBar" placeholder="Search for exhibits">
+    <a href="#" onclick="mainSearch()"><img class="mainSearchIcon" src="images/search.svg"></a>
+  </div>
+  <script src="script.js"></script>
+</body>
+<footer>
+  <p>43 Castlereagh Street, PO Box 208
+    Niagara-on-the-Lake, ON L0S 1J0
+    Canada
+  </p>
+  <p> Copyright © Niagara-on-the-Lake Museum 2023</p>
+</footer>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- This is the page to view and edit a singular exhibit. Both the display of the exbhit information (id = viewContainer)and the 
+    form to edit it (id = editContainer) are on this page. The form is by default invisible, when you click Edit Exhibition the display
+    becomes invisible and the form to edit the info is visables again. Clicking Save Exhibit toggles back.  -->
+
+<!-- This page does not interact with the backend, it uses a javascript object from which it pulls and updates values -->
+<!-- Note the the active field doesn't update -->
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<header>
+  <nav>
+    <div class="logoContainer">
+      <img src="images/logo.svg">
+    </div>
+    <div class="navLinksContainer">
+      <ul>
+        <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits"> <a href="#"
+            onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a></li>
+        <li><a href="Index.html"> Map </a></li>
+        <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
+        <li><a href="accountoverview.html"> Account <img class="navUser navIcon" src="images/user.png"></a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<body">
+  <div id="addContainer">
+    <div class="viewExhibitContainer">
+      <input type="text" id="exhibitNameField" class="textField">
+      <ul class="subHead">
+        <li> <span class="bold"> Exhibit ID/Room Number: </span>
+          <input type="text" class="textField" id="idField">
+        </li>
+        <br>
+        <li> <span class="bold"> Status: </span>
+          <select id="status">
+            <option value="active">Active</option>
+            <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
+            <option value="inactive-viewing"> Inactive - Private Viewing</option>
+            <option value="inactive-closed">Inactive - Permanently Closed</option>
+          </select>
+        </li>
+        <li> <span class="bold"> Floor: </span>
+          <input type="text" class="textField" id="floorField">
+        </li>
+        <li> <span class="bold"> Year: </span>
+          <input type="text" class="textField" id="yearField">
+        </li>
+      </ul>
+      <div>
+        <li> <span class="bold"> Select Image: </span>
+          <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" />
+        </li>
+      </div>
+      <br>
+      <div>
+        <textarea wrap="hard" id="descriptionTextarea" rows="7">sample description</textarea>
+      </div>
+      <div>
+        <li><span class="bold">Key Words:</span>
+          <textarea wrap="hard" id="keyWords"></textarea>
+        </li>
+      </div>
+      <a class="button solid" id="saveExhibit"> Save Exhibit</a>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const input = document.querySelector("#imageUpload");
+    input.addEventListener('change', updateImageList);
+    const imageList = [];
+
+    function updateImageList() {
+      const Images = input.files;
+      for (let i = 0; i < input.files.length; i++) {
+        imageList[i] = input.files[i];
+      }
+    }
+  </script>
+  <script type="module">
+    import { exhibitAdd } from "/FirebaseAccess.js";
+
+    document.getElementById("saveExhibit").addEventListener("click", addE);
+
+    function addE() {
+      const EID = document.getElementById("idField").value;
+      const title = document.getElementById("exhibitNameField").value;
+      const year = document.getElementById("yearField").value;
+      const floor = document.getElementById("floorField").value;
+      const desc = document.getElementById("descriptionTextarea").value;
+      const status = document.getElementById("status").value;
+      var keywords = document.getElementById("keyWords").value;
+      keywords = keywords.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ');
+      keywords = keywords.replace('  ', ' ');
+      const keyW = keywords.split(' ');
+      exhibitAdd(EID, title, year, floor, imageList, desc, status, keyW);
+    }
+
+
+  </script>
+  </body>
+  <footer>
+    <p>43 Castlereagh Street, PO Box 208
+      Niagara-on-the-Lake, ON L0S 1J0
+      Canada
+    </p>
+    <p> Copyright © Niagara-on-the-Lake Museum 2023</p>
+  </footer>
+
+</html>
