@@ -184,7 +184,7 @@ ul.artifactsList{
 }
 
 /* Input field styles */
-input[type=text], input[type=password], textarea, #status {
+input[type=text], input[type=password], textarea, #status { 
   border: 1px solid rgb(175, 175, 175);
   border-radius: 25px;
   padding: 5px 10px;
