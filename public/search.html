@@ -14,22 +14,246 @@
     </div>
     <div class="navLinksContainer">
       <ul>
-        <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits"> <a href="#"
-            onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a></li>
+        <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits">
+          <label id="advSearch" title="Click For Advanced Search"> + </label>
+          <a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a>
+        </li>
         <li><a href="index.html"> Map </a></li>
         <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
         <li><a href="accountoverview.html"> Account <img class="navUser navIcon" src="images/user.png"></a></li>
       </ul>
     </div>
   </nav>
+  <script>
+    document.getElementById("advSearch").addEventListener("click", redirect);
+    function redirect() {
+      window.location.replace("search.html?Advanced=" + true);
+    }
+    document.getElementById("navSearchBar").addEventListener("keypress", function (event) {
+      if (event.key == "Enter") {
+        event.preventDefault();
+        navSearch();
+      }
+    })
+  </script>
 </header>
 
-<body onload="loadSearch()">
+<body>
   <div id="searchContainer">
     <input type="text" class="textField" id="mainSearchBar" placeholder="Search for exhibits">
-    <a href="#" onclick="mainSearch()"><img class="mainSearchIcon" src="images/search.svg"></a>
+    <button type="button" id="showAdvance">Show Advance Search</button>
+    <a href=" #"><img class="mainSearchIcon" src="images/search.svg"></a>
+    <table id="searchTable">
+      <thead>
+        <tr>
+          <th> ID/Room Number </th>
+          <th> Name </th>
+          <th> Year </th>
+          <th> Status </th>
+          <th> Floor </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="advanceSearchContainer" style="display: none;">
+    <label for="sType">Search Type</label>
+    <select name="Search Type" id="sType">
+      <option value="OR">OR</option>
+      <option value="AND">AND</option>
+    </select>
+    <label for="sTitle">Title:</label>
+    <input type="text" class="textField" placeholder="Search By Title" id="sTitle">
+    <label for="sSYear">Start Year:</label>
+    <input type="number" class="textField" placeholder="Start Date" id="sSYear">
+    <label for="sEYear">End Year:</label>
+    <input type="number" class="textField" placeholder="End Date" id="sEYear">
+    <label for="sKeywords">Keywords:</label>
+    <input type="text" class="textField" placeholder="Keyword1, Keyword2, Keyword3" id="sKeywords">
+    <label for="sStatus">Status</label>
+    <select name="status" id="sStatus">
+      <option value="any">Any</option>
+      <option value="active">Active</option>
+      <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
+      <option value="inactive-viewing"> Inactive - Private Viewing</option>
+      <option value="inactive-closed">Inactive - Permanently Closed</option>
+    </select>
+    <label for="sFloor">Floor:</label>
+    <select name="floor" id="sFloor">
+      <option value="any">Any</option>
+      <option value="f1">Floor 1</option>
+      <option value="f2">Floor 2</option>
+    </select>
+    <a href=" #"><img class="mainSearchIcon" src="images/search.svg"></a>
+    <table id="advanceSearchTable">
+      <thead>
+        <tr>
+          <th> ID/Room Number </th>
+          <th> Name </th>
+          <th> Year </th>
+          <th> Status </th>
+          <th> Floor </th>
+        </tr>
+      </thead>
+    </table>
+
   </div>
   <script src="script.js"></script>
+  <script>
+    var advanceSearching = false;
+    document.getElementById("showAdvance").addEventListener("click", showAdvance);
+    function showAdvance() {
+      advanceSearching = true;
+      document.getElementById("searchContainer").style.display = "none";
+      document.getElementById("advanceSearchContainer").style.display = "block";
+    }
+
+    const param = new URLSearchParams(window.location.search);
+    if (param.get("Advanced")) {
+      showAdvance();
+    }
+
+    var TitleKeySearch = param.get("search");
+
+    const removeConjunctions = (str) => {
+      const conjunctionsRegex = /\b(and|or|but|nor|yet|so)\s+/gi;
+      return str.replace(conjunctionsRegex, "");
+    }
+
+    function display(exhibts) {
+      var table, row;
+      if (advanceSearching) {
+        table = document.getElementById("advanceSearchTable");
+      } else {
+        table = document.getElementById("searchTable");
+      }
+
+      var tRows = table.rows;
+      const t = tRows.length;
+      for (let i = 1; i < t; i++) {
+        table.deleteRow(t - i);
+      }
+
+      for (const [ID, exhibit] of Object.entries(exhibts)) {
+        row = document.createElement("tr");
+        var tds = [];
+        //creates and populates array of td HTML elements
+        for (var i = 0; i < 5; i++) {
+          tds[i] = document.createElement("td");
+        }
+        //So the Name of the exhibit is a link
+        aName = document.createElement("a");
+        aName.innerHTML = exhibit.Title;
+        aName.href = "viewExhibit.html?ID=" + ID;
+        //creates and populates array of the exhibits attributes
+        var data = [];
+        data[0] = document.createTextNode(ID);
+        //skip data[1]
+        data[2] = document.createTextNode(exhibit.Date);
+        data[3] = document.createTextNode(exhibit.Status);
+        data[4] = document.createTextNode(exhibit.Floor);
+        // adds each attribute to a td object
+        for (var i = 0; i < 5; i++) {
+          // use link element if it's the name
+          if (i == 1) {
+            tds[i].appendChild(aName);
+          }
+          else {
+            tds[i].appendChild(data[i]);
+          }
+        }
+        //adds the td objects to one row
+        for (var i = 0; i < 5; i++) {
+          row.appendChild(tds[i]);
+        }
+
+        //adds the row to the table
+        table.appendChild(row);
+      }
+
+    }
+
+  </script>
+  <script type="module">
+    import { exhibitQuerySearchOR, exhibitQuerySearchAND } from "/FirebaseAccess.js";
+
+    if (TitleKeySearch) {
+      document.getElementById("mainSearchBar").value = TitleKeySearch
+      TitleKeySearch = removeConjunctions(TitleKeySearch);
+      const searchSplit = TitleKeySearch.split(" ");
+      searchSplit.forEach((word, index, array) => {
+        word = word.toUpperCase();
+        array[index] = word;
+      });
+      exhibitQuerySearchOR(searchSplit, null, null, null, null, display);
+    }
+
+    document.querySelectorAll('.mainSearchIcon').forEach((Icon) => {
+      Icon.addEventListener("click", search);
+    })
+
+    function search() {
+      if (!advanceSearching) {
+        var toSearch = document.getElementById("mainSearchBar").value;
+        toSearch = removeConjunctions(toSearch);
+        const searchSplit = toSearch.split(" ");
+        searchSplit.forEach((word, index, array) => {
+          word = word.toUpperCase();
+          array[index] = word;
+        });
+        exhibitQuerySearchOR(searchSplit, null, null, null, null, display);
+      } else {
+        const searchType = document.getElementById("sType").value;
+        var title = document.getElementById("sTitle").value;
+        const sYear = document.getElementById("sSYear").value;
+        const eYear = document.getElementById("sEYear").value;
+        var keywords = document.getElementById("sKeywords").value;
+        const status = document.getElementById("sStatus").value;
+        const floor = document.getElementById("sFloor").value;
+
+        title = removeConjunctions(title);
+
+        if (searchType == "OR") {
+          const titleKeyword = [...new Set([...(title?.trim()?.toUpperCase()?.split(" ") ?? []), ...(keywords?.trim()?.toUpperCase()?.match(/\S+/g) ?? [])])];
+          if (status == "any") {
+            if (floor == "f1") {
+              exhibitQuerySearchOR(titleKeyword, sYear, eYear, null, "1", display);
+            } if (floor == "f2") {
+              exhibitQuerySearchOR(titleKeyword, sYear, eYear, null, "2", display);
+            } else {
+              exhibitQuerySearchOR(titleKeyword, sYear, eYear, null, null, display);
+            }
+          } else {
+            if (floor == "f1") {
+              exhibitQuerySearchOR(titleKeyword, sYear, eYear, status, "1", display);
+            } if (floor == "f2") {
+              exhibitQuerySearchOR(titleKeyword, sYear, eYear, status, "2", display);
+            } else {
+              exhibitQuerySearchOR(titleKeyword, sYear, eYear, status, null, display);
+            }
+          }
+        } else if (searchType == "AND") {
+          if (status == "any") {
+            if (floor == "f1") {
+              exhibitQuerySearchAND(titleKeyword, sYear, eYear, null, "1", display);
+            } else if (floor == "f2") {
+              exhibitQuerySearchAND(titleKeyword, sYear, eYear, null, "2", display);
+            } else {
+              exhibitQuerySearchAND(titleKeyword, sYear, eYear, null, null, display);
+            }
+          } else {
+            if (floor == "f1") {
+              exhibitQuerySearchAND(titleKeyword, sYear, eYear, status, "1", display);
+            } else if (floor == "f2") {
+              exhibitQuerySearchAND(titleKeyword, sYear, eYear, status, "2", display);
+            } else {
+              exhibitQuerySearchAND(titleKeyword, sYear, eYear, status, null, display);
+            }
+          }
+        }
+      }
+    }
+
+  </script>
 </body>
 <footer>
   <p>43 Castlereagh Street, PO Box 208

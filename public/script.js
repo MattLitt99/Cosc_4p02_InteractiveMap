@@ -52,18 +52,23 @@ function viewLoad(id, exhibit) {
 //Handles functionality for searching in the navBar
 function navSearch() {
     var temp;
+
     temp = document.getElementById("navSearchBar");
+    var temp1 = document.getElementById("advSearch");
     // If the search textbox is invisible then make it visible
     if (temp.style.display == "") {
         temp.style.display = "inline-block";
+        temp1.style.display = "inline-block";
     }
     //if searchbar has no text in it and icon is clicked, make searchbar invisible
     else if (temp.value == "") {
         temp.style.display = "";
+        temp1.style.display = "";
     }
     // If searchbar is visible and has text complete the search
     else {
-        console.log("Search for " + temp.value);
+        var toSearch = temp.value;
+        window.location.replace("search.html?search=" + toSearch);
     }
 }
 

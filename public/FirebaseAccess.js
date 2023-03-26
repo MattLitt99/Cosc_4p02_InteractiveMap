@@ -34,29 +34,27 @@ export function exhibitGetAll(callbackFunction) {
 }
 /**
  * Queries the Exhibit database based on the provided parameters with a logical OR ; If a parameters is not to be used in the search then set it as null
- * @param {string} title 
+ * @param {string[]} titleKeyword 
  * @param {string} sYear 
  * @param {string} eYear 
- * @param {string} keywords 
  * @param {string} status 
  * @param {int} floor 
  * @param {function} callbackFunction
  */
-export function exhibitQuerySearchOR(title, sYear, eYear, keywords, status, floor, callbackFunction) {
-    querySearchORExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
+export function exhibitQuerySearchOR(titleKeyword, sYear, eYear, status, floor, callbackFunction) {
+    querySearchORExhibit(titleKeyword, sYear, eYear, status, floor, callbackFunction)
 }
 /**
 * Queries the Exhibit database based on the provided parameters with a logical AND ; If a parameters is not to be used in the search then set it as null
-* @param {string} title 
+* @param {string[]} titleKeyword 
 * @param {string} sYear 
 * @param {string} eYear 
-* @param {string} keywords 
 * @param {string} status 
 * @param {int} floor 
 * @param {function} callbackFunction
 */
-export function exhibitQuerySearchAND(title, sYear, eYear, keywords, status, floor, callbackFunction) {
-    querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction)
+export function exhibitQuerySearchAND(titleKeyword, sYear, eYear, status, floor, callbackFunction) {
+    querySearchANDExhibit(titleKeyword, sYear, eYear, status, floor, callbackFunction)
 }
 /**
  * Uses the following parameters to create an entry into the "exhibit" database while uploading and link supplied images
@@ -141,28 +139,18 @@ async function getAllExhibits(callbackFunction) {
     })
     callbackFunction(exhibit);
 }
-async function querySearchORExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+async function querySearchORExhibit(titleKeyword, sYear, eYear, status, floor, callbackFunction) {
     const docRef = collection(database, "Exhibits")
     const results = new Array();
 
-    if (title) {
-        title = title.toUpperCase();
-        const titleSplit = title.split(' ');
-        const q = query(docRef, where("Title_Search", "array-contains-any", titleSplit));
+    if (titleKeyword) {
+        const q = query(docRef, where("Title_Keyword_Search", "array-contains-any", titleKeyword));
         const snap = await getDocs(q);
         snap.forEach((doc) => {
             results[doc.id] = doc.data();
         })
     }
-    if (keywords) {
-        keywords = keywords.toUpperCase();
-        const keywordSplit = keywords.split(' ');
-        const q = query(docRef, where("Keywords", "array-contains-any", keywordSplit));
-        const snap = await getDocs(q);
-        snap.forEach((doc) => {
-            results[doc.id] = doc.data();
-        })
-    }
+
     if (sYear && eYear) {
         const q = query(docRef, where("Date", ">=", parseInt(sYear)), where("Date", "<=", parseInt(eYear)));
         const snap = await getDocs(q);
@@ -198,10 +186,9 @@ async function querySearchORExhibit(title, sYear, eYear, keywords, status, floor
     }
     callbackFunction(results)
 }
-async function querySearchANDExhibit(title, sYear, eYear, keywords, status, floor, callbackFunction) {
+async function querySearchANDExhibit(titleKeyword, sYear, eYear, status, floor, callbackFunction) {
     const docRef = collection(database, "Exhibits");
     const results = [];
-    const titleKeyword = [...new Set([...(title?.trim()?.toUpperCase()?.split(" ") ?? []), ...(keywords?.trim()?.toUpperCase()?.match(/\S+/g) ?? [])])];
 
     const conditions = [];
     if (titleKeyword.length > 0) {

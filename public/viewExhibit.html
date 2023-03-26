@@ -21,14 +21,28 @@
     </div>
     <div class="navLinksContainer">
       <ul>
-        <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits"> <a href="#"
-            onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a></li>
+        <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits">
+          <label id="advSearch" title="Click For Advanced Search"> + </label>
+          <a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a>
+        </li>
         <li><a href="index.html"> Map </a></li>
         <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
         <li><a href="accountoverview.html"> Account <img class="navUser navIcon" src="images/user.png"></a></li>
       </ul>
     </div>
   </nav>
+  <script>
+    document.getElementById("advSearch").addEventListener("click", redirect);
+    function redirect() {
+      window.location.replace("search.html?Advanced=" + true);
+    }
+    document.getElementById("navSearchBar").addEventListener("keypress", function (event) {
+      if (event.key == "Enter") {
+        event.preventDefault();
+        navSearch();
+      }
+    })
+  </script>
 </header>
 <!-- onload="viewLoad()" -->
 
