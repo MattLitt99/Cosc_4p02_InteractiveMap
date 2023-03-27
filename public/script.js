@@ -15,6 +15,20 @@ function viewLoad(id, exhibit) {
     document.getElementById("idDisplay").innerHTML = '<span class="bold"> Exhibit Room Number: </span> ' + id;
     document.getElementById("exhibitDescription").innerHTML = exhibit.Desc;
     document.getElementById("roomNumberDisplay").innerHTML = '<span class="bold"> Floor: </span> ' + exhibit.Floor;
+    const t = exhibit.Status;
+
+    if (t == "inactive-cleaning") {
+        document.getElementById("statusHolder").innerHTML = "Inactive: Cleaning";
+    } else if (t == "inactive-viewing") {
+        document.getElementById("statusHolder").innerHTML = "Inactive: Private Viewing";
+    } else if (t == "inactive-closed") {
+        document.getElementById("statusHolder").innerHTML = "Closed";
+    } else {
+        document.getElementById("statusHolder").innerHTML = "Active";
+    }
+
+
+
     document.getElementById("status").selectedIndex = exhibit.Status;
     document.getElementById("yearDisplay").innerHTML = '<span class="bold"> Year: </span> ' + exhibit.Date;
     document.getElementById("exhibitKeyWords").innerHTML = exhibit.Keywords.toString().replaceAll(',', ', ');

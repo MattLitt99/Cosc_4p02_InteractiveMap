@@ -299,7 +299,7 @@ async function updateExhibit(ID, fieldToUpdate, newData) {
     if (fieldToUpdate === "Desc") {
         setDoc(docRef, { Desc: newData }, { merge: true })
     }
-    if (fieldToUpdate === "Satus") {
+    if (fieldToUpdate === "Status") {
         setDoc(docRef, { Status: newData }, { merge: true })
     }
 
