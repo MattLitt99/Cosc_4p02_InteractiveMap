@@ -9,7 +9,7 @@
 <body>
     <h1>Auth Test 1</h1>
     <div>
-        <h2 id="loggedIn">Welcome</h2>
+        <h2 id="loggedIn">Welcome!</h2>
     </div>
     <div>
         <p>User ID</p>
@@ -35,7 +35,7 @@
         const firebaseConfig = {
             apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
             authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
-            projectId: "cosc4p02-mesuemmap",
+            projectId: "cosc4p02-mesuemmap", 
             storageBucket: "cosc4p02-mesuemmap.appspot.com",
             messagingSenderId: "235500180144",
             appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
@@ -58,9 +58,8 @@
                 var accessLevel = userInfo[2];
                 
                 if(user.uid == userInfo[0]){
-                    document.getElementById("loggedIn").innerHTML = "Welcome "+accessLevel+" "+name;
-                    
-
+                    document.getElementById("loggedIn").innerHTML = "Welcome! "+accessLevel+" "+name;
+                
                 }
                 
             }
