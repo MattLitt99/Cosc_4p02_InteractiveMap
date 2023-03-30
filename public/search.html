@@ -18,7 +18,7 @@
           <label id="advSearch" title="Click For Advanced Search"> + </label>
           <a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a>
         </li>
-        <li><a href="index.html"> Map </a></li>
+        <li><a href="index.html"> Map </a></li> 
         <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
         <li><a href="accountoverview.html"> Account <img class="navUser navIcon" src="images/user.png"></a></li>
       </ul>
@@ -27,7 +27,7 @@
   <script>
     document.getElementById("advSearch").addEventListener("click", redirect);
     function redirect() {
-      window.location.replace("search.html?Advanced=" + true);
+      window.location.replace("search.html?Advanced=" + true); 
     }
     document.getElementById("navSearchBar").addEventListener("keypress", function (event) {
       if (event.key == "Enter") {
@@ -55,14 +55,14 @@
       </thead>
     </table>
   </div>
-  <div id="advanceSearchContainer" style="display: none;">
+  <div id="advanceSearchContainer" style="display: none;"> 
     <label for="sType">Search Type</label>
     <select name="Search Type" id="sType">
       <option value="OR">OR</option>
       <option value="AND">AND</option>
     </select>
     <label for="sTitle">Title:</label>
-    <input type="text" class="textField" placeholder="Search By Title" id="sTitle">
+    <input type="text" class="textField"  placeholder="Search By Title" id="sTitle">
     <label for="sSYear">Start Year:</label>
     <input type="number" class="textField" placeholder="Start Date" id="sSYear">
     <label for="sEYear">End Year:</label>
@@ -74,7 +74,7 @@
       <option value="any">Any</option>
       <option value="active">Active</option>
       <option value="inactive-cleaning">Inactive - Cleaning/Maintenance</option>
-      <option value="inactive-viewing"> Inactive - Private Viewing</option>
+      <option value="inactive-viewing"> Inactive -  Private Viewing</option>
       <option value="inactive-closed">Inactive - Permanently Closed</option>
     </select>
     <label for="sFloor">Floor:</label>
