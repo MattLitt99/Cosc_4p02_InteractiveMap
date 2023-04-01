@@ -128,3 +128,216 @@ function loadExhibitsList(exhibits) {
         table.appendChild(row);
     }
 }
+
+// Added code below
+
+function checkUserStatus(){
+    if(document.cookie != "///"){
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let userInfo = decodedCookie.split('/');
+        var UID = userInfo[0];
+        var name = userInfo[1];
+        var accessLevel = userInfo[2];
+
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode(name);
+        refLink.href = "accountoverview.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+
+
+
+    } else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+    }
+}
+
+function checkUserStatusExhibitList(){
+    if(document.cookie != "///"){
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let userInfo = decodedCookie.split('/');
+        var UID = userInfo[0];
+        var name = userInfo[1];
+        var accessLevel = userInfo[2];
+        var uidNum = userInfo[3];
+
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode(name);
+        refLink.href = "accountoverview.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+
+        if(accessLevel == "Curator" || accessLevel == "Admin"){
+          const addEx = document.createElement("a");
+          const element2 = document.getElementById("AddExhibitContainer");
+          addEx.href = "addExhibit.html";
+          addEx.id = "addExhibit";
+          addEx.className = "button solid";
+          const exText = document.createTextNode("Add Exhibit");
+          addEx.appendChild(exText);
+          element2.appendChild(addEx);
+        }
+        
+
+
+
+
+    } else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+    }
+}
+
+function checkUserStatusViewExhibit(){
+    if(document.cookie != "///"){
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let userInfo = decodedCookie.split('/');
+        var UID = userInfo[0];
+        var name = userInfo[1];
+        var accessLevel = userInfo[2];
+
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode(name);
+        refLink.href = "accountoverview.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+
+        if(accessLevel == "Curator" || accessLevel == "Admin"){
+          const editEx = document.createElement("a");
+          const element2 = document.getElementById("editor");
+          editEx.className = "button outlined";
+          editEx.setAttribute("onclick","openEditor()");
+          const exText = document.createTextNode("Edit Exhibit");
+          editEx.appendChild(exText);
+          element2.appendChild(editEx);
+        }
+        
+
+
+
+
+    } else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+    }
+}
+
+function checkUserStatusAccountView(){
+    if(document.cookie != "///"){
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let userInfo = decodedCookie.split('/');
+        var UID = userInfo[0];
+        var name = userInfo[1];
+        var accessLevel = userInfo[2];
+        var uidNum = userInfo[3];
+
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode(name);
+        refLink.href = "accountoverview.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+
+        const nameItem = document.createElement("td");
+        const uidItem = document.createElement("td");
+        const accesslevelItem = document.createElement("td");
+
+        const nameText = document.createTextNode(name);
+        const uidText = document.createTextNode(uidNum);
+        const accesslevelText = document.createTextNode(accessLevel);
+
+        const userName = document.getElementById("userName");
+        const userID = document.getElementById("userID");
+        const userAccessLevel = document.getElementById("userAccessLevel");
+
+        nameItem.appendChild(nameText);
+        userName.appendChild(nameItem);
+
+        uidItem.appendChild(uidText);
+        userID.appendChild(uidItem);
+
+        accesslevelItem.appendChild(accesslevelText);
+        userAccessLevel.appendChild(accesslevelItem);
+
+    } else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const text = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+    }
+}
+
