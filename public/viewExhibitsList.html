@@ -14,14 +14,13 @@
       <img src="images/logo.svg">
     </div>
     <div class="navLinksContainer">
-      <ul>
+      <ul id="navLinksContainer">
         <li><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits">
           <label id="advSearch" title="Click For Advanced Search"> + </label>
           <a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a>
         </li>
         <li><a href="index.html"> Map </a></li>
         <li><a href="viewExhibitsList.html"> Exhibit List </a></li>
-        <li><a href="accountoverview.html"> Account <img class="navUser navIcon" src="images/user.png"></a></li>
       </ul>
     </div>
   </nav>
@@ -41,8 +40,8 @@
 
 <body>
   <div id="exhibitListContainer">
-    <div class="AddExhibitContainer">
-      <a href="addExhibit.html" id="addExhibit" class="button solid">Add Exhibit</a>
+    <div class="AddExhibitContainer" id="AddExhibitContainer">
+
     </div>
     <table id="viewExhibitsTable">
       <tr>
@@ -56,6 +55,9 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+        checkUserStatusExhibitList();
+  </script>
   <script type="module">
     import { exhibitGetAll } from "/FirebaseAccess.js";
     document.getElementById("exhibitListContainer").addEventListener("load", exhibitGetAll(loadExhibitsList));
