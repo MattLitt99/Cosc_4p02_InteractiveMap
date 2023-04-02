@@ -168,6 +168,20 @@ function checkUserStatus(){
         listItem.appendChild(refLink);
         const element = document.getElementById("navLinksContainer");
         element.appendChild(listItem);
+    }  else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const loginText = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(loginText);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
     }
 
 }
@@ -224,6 +238,20 @@ function checkUserStatusExhibitList(){
         listItem.appendChild(refLink);
         const element = document.getElementById("navLinksContainer");
         element.appendChild(listItem);
+    }  else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const loginText = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(loginText);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
     }
 }
 
@@ -273,6 +301,20 @@ function checkUserStatusViewExhibit(){
         imageLink.className = "navUser navIcon";
         imageLink.src = "images/user.png";
         refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+    }  else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const loginText = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(loginText);
         refLink.appendChild(imageLink);
         listItem.appendChild(refLink);
         const element = document.getElementById("navLinksContainer");
@@ -334,6 +376,20 @@ function checkUserStatusAccountView(){
         imageLink.className = "navUser navIcon";
         imageLink.src = "images/user.png";
         refLink.appendChild(text);
+        refLink.appendChild(imageLink);
+        listItem.appendChild(refLink);
+        const element = document.getElementById("navLinksContainer");
+        element.appendChild(listItem);
+    }  else {
+        const listItem = document.createElement("li");
+        const refLink = document.createElement("a");
+        const imageLink = document.createElement("img");
+
+        const loginText = document.createTextNode("Login");
+        refLink.href = "login.html";
+        imageLink.className = "navUser navIcon";
+        imageLink.src = "images/user.png";
+        refLink.appendChild(loginText);
         refLink.appendChild(imageLink);
         listItem.appendChild(refLink);
         const element = document.getElementById("navLinksContainer");
