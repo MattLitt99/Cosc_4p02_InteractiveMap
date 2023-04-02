@@ -38,15 +38,13 @@
 
 <body id="loginBody">
 	<div class="loginContainer">
-		<form onsubmit="return validateForm()">
-			<h2>Login</h2>
-			<label for="username">Username:</label>
-			<input type="text" id="username" name="username" required><br><br>
-			<label for="password">Password:</label>
-			<input type="password" id="password" name="password" required><br>
-			<span id="passwordError" class="error"></span><br>
-			<input type="submit" value="Login" class="button solid" id="loginButton">
-		</form>
+		<h2>Login</h2>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required><br><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required><br>
+		<span id="passwordError" class="error"></span><br>
+		<input type="submit" value="Login" class="button solid" id="loginButton">
 	</div>
 	<script>
 		function validateForm() {
@@ -91,11 +89,15 @@
         const database = getFirestore(app);
         const storage = getStorage(app);
 
-		async function login () {
-            var UID = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const docRef = doc(database, "users", UID);
-            const snap = await getDoc(docRef);
+	async function login () {
+		var UID = document.getElementById("username").value;
+            	const password = document.getElementById("password").value;
+            	const docRef = doc(database, "users", UID);
+            	const snap = await getDoc(docRef);
+		if (password.length < 6) {
+			document.getElementById("passwordError").innerHTML = "Please enter the password with atleast 6 characters";
+			return;
+		}
 
             try {
                 if(password == snap.data().Password){
