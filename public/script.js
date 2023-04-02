@@ -130,9 +130,8 @@ function loadExhibitsList(exhibits) {
 }
 
 // Added code below
-
 function checkUserStatus(){
-    if(document.cookie != "///"){
+    if(document.cookie != "///" && document.cookie.length > 0){
         let decodedCookie = decodeURIComponent(document.cookie);
         let userInfo = decodedCookie.split('/');
         var UID = userInfo[0];
@@ -155,25 +154,26 @@ function checkUserStatus(){
 
 
 
-    } else {
+    } else if (document.cookie.length == 0 || document.cookie == "///") {
         const listItem = document.createElement("li");
         const refLink = document.createElement("a");
         const imageLink = document.createElement("img");
 
-        const text = document.createTextNode("Login");
+        const loginText = document.createTextNode("Login");
         refLink.href = "login.html";
         imageLink.className = "navUser navIcon";
         imageLink.src = "images/user.png";
-        refLink.appendChild(text);
+        refLink.appendChild(loginText);
         refLink.appendChild(imageLink);
         listItem.appendChild(refLink);
         const element = document.getElementById("navLinksContainer");
         element.appendChild(listItem);
     }
+
 }
 
 function checkUserStatusExhibitList(){
-    if(document.cookie != "///"){
+    if(document.cookie != "///" && document.cookie.length > 0){
         let decodedCookie = decodeURIComponent(document.cookie);
         let userInfo = decodedCookie.split('/');
         var UID = userInfo[0];
@@ -210,7 +210,7 @@ function checkUserStatusExhibitList(){
 
 
 
-    } else {
+    } else if (document.cookie.length == 0 || document.cookie == "///") {
         const listItem = document.createElement("li");
         const refLink = document.createElement("a");
         const imageLink = document.createElement("img");
@@ -228,7 +228,7 @@ function checkUserStatusExhibitList(){
 }
 
 function checkUserStatusViewExhibit(){
-    if(document.cookie != "///"){
+    if(document.cookie != "///" && document.cookie.length > 0){
         let decodedCookie = decodeURIComponent(document.cookie);
         let userInfo = decodedCookie.split('/');
         var UID = userInfo[0];
@@ -263,7 +263,7 @@ function checkUserStatusViewExhibit(){
 
 
 
-    } else {
+    } else if (document.cookie.length == 0 || document.cookie == "///") {
         const listItem = document.createElement("li");
         const refLink = document.createElement("a");
         const imageLink = document.createElement("img");
@@ -281,7 +281,7 @@ function checkUserStatusViewExhibit(){
 }
 
 function checkUserStatusAccountView(){
-    if(document.cookie != "///"){
+    if(document.cookie != "///" && document.cookie.length > 0){
         let decodedCookie = decodeURIComponent(document.cookie);
         let userInfo = decodedCookie.split('/');
         var UID = userInfo[0];
@@ -324,7 +324,7 @@ function checkUserStatusAccountView(){
         accesslevelItem.appendChild(accesslevelText);
         userAccessLevel.appendChild(accesslevelItem);
 
-    } else {
+    } else if (document.cookie.length == 0 || document.cookie == "///") {
         const listItem = document.createElement("li");
         const refLink = document.createElement("a");
         const imageLink = document.createElement("img");
