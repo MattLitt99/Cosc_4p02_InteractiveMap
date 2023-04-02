@@ -10,7 +10,7 @@
 
 <header>
   <nav>
-    <div class="logoContainer">
+    <div class="logoContainer"> 
       <a href="https://cosc4p02-mesuemmap.web.app/"><img src="images/logo.svg"></a>
     </div>
     <div class="navLinksContainer">
@@ -31,7 +31,7 @@
     }
     document.getElementById("navSearchBar").addEventListener("keypress", function (event) {
       if (event.key == "Enter") {
-        event.preventDefault();
+        event.preventDefault(); 
         navSearch();
       }
     })
@@ -39,7 +39,7 @@
 </header>
 
 <body>
-  <div id="exhibitListContainer">
+  <div id="exhibitListContainer"> 
     <div class="AddExhibitContainer" id="AddExhibitContainer">
 
     </div>
@@ -58,9 +58,9 @@
   <script>
         checkUserStatusExhibitList();
   </script>
-  <script type="module">
+  <script type="module"> 
     import { exhibitGetAll } from "/FirebaseAccess.js";
-    document.getElementById("exhibitListContainer").addEventListener("load", exhibitGetAll(loadExhibitsList));
+    document.getElementById("exhibitListContainer").addEventListener("load",exhibitGetAll(loadExhibitsList));
 
   </script>
 </body>
