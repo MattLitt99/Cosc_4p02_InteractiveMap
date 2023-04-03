@@ -1,4 +1,11 @@
 
+//to check screen width for responsiveness 
+var smallScreen = "";
+var x = window.matchMedia("(max-width: 730px");
+checkScreenWidth(x);
+x.addListener(checkScreenWidth);
+
+
 // Changes closes the viewing part of page and replaces it with form to edit
 function openEditor() {
     console.log("We have clicked edit exhibit");
@@ -7,7 +14,6 @@ function openEditor() {
 }
 
 function viewLoad(id, exhibit) {
-    // Creates object to get filler content from
     console.log("View page has loaded");
 
     //Write the information from the javascript object to the HTML document
@@ -65,24 +71,60 @@ function viewLoad(id, exhibit) {
 
 //Handles functionality for searching in the navBar
 function navSearch() {
-    var temp;
-
-    temp = document.getElementById("navSearchBar");
+    var temp = document.getElementById("navSearchBar");
     var temp1 = document.getElementById("advSearch");
-    // If the search textbox is invisible then make it visible
-    if (temp.style.display == "") {
+    var temp2 = document.getElementById("searchListItem");
+
+    //for large screen sizes
+    if ( smallScreen == false ) {
+        // If the search textbox is invisible then make it visible
+        if (temp.style.display == "") {
+            temp.style.display = "inline-block";
+            temp1.style.display = "inline-block";
+            //temp2.style.display = "block";
+        }
+        //if searchbar has no text in it and icon is clicked, make searchbar invisible
+        else if (temp.value == "") {
+            temp.style.display = "";
+            temp1.style.display = "";
+            //temp2.style.display = "";
+        }
+        // If searchbar is visible and has text complete the search
+        else {
+            var toSearch = temp.value;
+            window.location.replace("search.html?search=" + toSearch);
+        }
+    }
+    //for smaller screen sizes (search bar is always visible)
+    else {
+        // If the search textbox is invisible then make it visible
+        if (temp.value != "") {
+            var toSearch = temp.value;
+            window.location.replace("search.html?search=" + toSearch);
+        }
+    }
+}
+
+// for navbar responsiveness 
+function checkScreenWidth(x){
+    var temp = document.getElementById("navSearchBar");
+    var temp1 = document.getElementById("advSearch");
+    var temp2 = document.getElementById("searchListItem");
+    //if screen width is <= 730
+    if ( x.matches) {
+        console.log("Screen width is <= 730");
         temp.style.display = "inline-block";
         temp1.style.display = "inline-block";
+        temp2.style.display = "block";
+        smallScreen = true;
     }
-    //if searchbar has no text in it and icon is clicked, make searchbar invisible
-    else if (temp.value == "") {
+    //if screen width is > 730
+    else {
+        console.log("Screen width is > 730");
         temp.style.display = "";
         temp1.style.display = "";
-    }
-    // If searchbar is visible and has text complete the search
-    else {
-        var toSearch = temp.value;
-        window.location.replace("search.html?search=" + toSearch);
+        temp2.style.display = "inline-block";
+        smallScreen = false;
     }
 }
 
