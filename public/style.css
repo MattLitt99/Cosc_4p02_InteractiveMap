@@ -369,7 +369,6 @@
    vertical-align: middle;
  }
 
-
  /* Footer Styles */
 
  footer {
@@ -382,7 +381,7 @@
  footer p {
    margin: 10px;
  }
-
+ /*responsive*/
  /* For small screen sizes */
  @media only screen and (max-width: 850px) {
   nav li {
@@ -390,7 +389,7 @@
   }
 
 }
- @media only screen and (max-width: 730px) {
+ @media only screen and (max-width: 720px) {
   nav li {
     padding: 0 0px;
   }
