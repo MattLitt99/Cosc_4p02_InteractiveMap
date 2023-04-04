@@ -290,52 +290,49 @@
    padding: 10px 100px;
  }
 
- /* Exhibit List Page Styles */
+ /* Exhibit List Page and Search Page Styles */
  #exhibitListContainer {
    margin-bottom: 300px;
  }
 
- #exhibitListContainer td,
- #exhibitListContainer th {
+ #exhibitListContainer td, 
+ #exhibitListContainer th,
+ #searchTable td,
+ #searhTable th {
    padding: 10px;
  }
 
- #exhibitListContainer table {
+ #exhibitListContainer table, 
+ #searchTable {
    width: 70%;
    margin: 0 auto;
  }
 
- #viewExhibitsTable a {
-   color: black;
- }
-
- #viewExhibitsTable a:hover {
-   color: #c51a17;
- }
-
- #advanceSearchTable a {
-   color: black;
- }
-
- #advanceSearchTable a:hover {
-   color: #c51a17;
- }
-
+ #viewExhibitsTable a,  
+ #advanceSearchTable a,
  #searchTable a {
    color: black;
  }
 
+ #viewExhibitsTable a:hover,  
+ #advanceSearchTable a:hover,
  #searchTable a:hover {
    color: #c51a17;
  }
 
- #exhibitListContainer tr:nth-child(even) {
+ #exhibitListContainer tr:nth-child(even), 
+ #searchTable tr:nth-child(even),
+ #advanceSearchTable tr:nth-child(even) {
    background-color: #f2f2f2;
  }
 
  #advSearch {
    display: none;
    cursor: pointer;
+ }
+
+ #searchTable {
+  margin-top: 30px;
  }
 
  .AddExhibitContainer {
@@ -368,6 +365,7 @@
    width: 40px;
    vertical-align: middle;
  }
+
 
  /* Footer Styles */
 
