@@ -298,12 +298,15 @@
  #exhibitListContainer td, 
  #exhibitListContainer th,
  #searchTable td,
- #searhTable th {
+ #searhTable th,
+ #advanceSearchTable td,
+ #advanceSearchTable th {
    padding: 10px;
  }
 
  #exhibitListContainer table, 
- #searchTable {
+ #searchTable,
+ #advanceSearchTable {
    width: 70%;
    margin: 0 auto;
  }
@@ -331,7 +334,7 @@
    cursor: pointer;
  }
 
- #searchTable {
+ #searchTable, #advanceSearchTable {
   margin-top: 30px;
  }
 
