@@ -1,21 +1,24 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import { getFirestore, setDoc, getDoc, getDocs, deleteDoc, doc, updateDoc, arrayUnion, query, collection, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+import { getAuth, setPersistence, signInWithEmailAndPassword, signOut, browserSessionPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
     authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
-    databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com",
     projectId: "cosc4p02-mesuemmap",
     storageBucket: "cosc4p02-mesuemmap.appspot.com",
     messagingSenderId: "235500180144",
-    appId: "1:235500180144:web:c021f7d72c3d92a380a175"
+    appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
+    databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
 };
 
 
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 const storage = getStorage(app);
+const auth = getAuth(app);
 
 
 //EXHIBIT FUNCTIONALITY
@@ -373,6 +376,51 @@ export function userSearch(UID, callbackFunction) {
  */
 export function userAdd(UID, name, accessLevel, password) {
     addUser(UID, name, accessLevel, password);
+}
+export function logout() {
+    logUserOut();
+}
+
+export function login() {
+    logUserIn();
+}
+async function logUserIn() {
+    var UID = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const docRef = doc(database, "users", UID);
+    const snap = await getDoc(docRef);
+    if (password.length < 6) {
+        document.getElementById("passwordError").innerHTML = "Please enter the password with atleast 6 characters";
+        return;
+    }
+
+    try {
+        if (password == snap.data().Password) {
+            var username = snap.data().Name;
+            username = username + "@gmail.com";
+            const userCred = await setPersistence(auth, browserSessionPersistence).then(() => {
+                return signInWithEmailAndPassword(auth, username, password);
+            });
+            const uid = userCred.user.uid;
+            const accessLevel = snap.data().AccessLevel
+            const name = snap.data().Name;
+            document.cookie = uid + "/" + name + "/" + accessLevel + "/" + UID;
+            alert("Welcome " + accessLevel + " " + name)
+            window.location.replace("index.html");
+        } else {
+            document.getElementById("passwordError").innerHTML = "Incorrect User Credentials";
+        }
+    } catch (error) {
+        alert("incorrect User Credentials");
+    }
+}
+async function logUserOut() {
+    signOut(auth).then(() => {
+        console.log("SIGNED OUT\n");
+        document.cookie = "///";
+        alert("Signed out")
+        window.location.replace("index.html");
+    })
 }
 
 async function addUser(UID, name, accessLevel, password) {

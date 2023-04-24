@@ -12,7 +12,8 @@
 		</div>
 		<div class="navLinksContainer">
 			<ul>
-				<li id="searchListItem"><input type="text" class="textField" id="navSearchBar" placeholder="Search for exhibits">
+				<li id="searchListItem"><input type="text" class="textField" id="navSearchBar"
+						placeholder="Search for exhibits">
 					<label id="advSearch" title="Click For Advanced Search"> + </label>
 					<a href="#" onclick="navSearch()"><img class="searchIcon navIcon" src="images/search.svg"></a>
 				</li>
@@ -60,72 +61,12 @@
 	</script>
 	<script src="script.js"></script>
 	<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-        import { getFirestore, setDoc, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
-        import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
-        import { getAuth, setPersistence, signInWithEmailAndPassword, signOut, browserSessionPersistence,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+		import { login } from "/FirebaseAccess.js";
 
-		//import { loginUser } from "./FirebaseAccess.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        // /*
-        const firebaseConfig = {
-            apiKey: "AIzaSyCm9-YxifpEbVuBYOh3GukLka4cenJYw84",
-            authDomain: "cosc4p02-mesuemmap.firebaseapp.com",
-            projectId: "cosc4p02-mesuemmap",
-            storageBucket: "cosc4p02-mesuemmap.appspot.com",
-            messagingSenderId: "235500180144",
-            appId: "1:235500180144:web:6b3bf1fb3ff3c50c80a175",
-            databaseURL: "https://cosc4p02-mesuemmap-default-rtdb.firebaseio.com/"
-        };
-        // */
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const database = getFirestore(app);
-        const storage = getStorage(app);
-
-	async function login () {
-		var UID = document.getElementById("username").value;
-            	const password = document.getElementById("password").value;
-            	const docRef = doc(database, "users", UID);
-            	const snap = await getDoc(docRef);
-		if (password.length < 6) {
-			document.getElementById("passwordError").innerHTML = "Please enter the password with atleast 6 characters";
-			return;
-		}
-
-            try {
-                if(password == snap.data().Password){
-                var username = snap.data().Name;
-                username = username+"@gmail.com";
-                const userCred = await setPersistence(auth, browserSessionPersistence).then(() =>{
-                    return signInWithEmailAndPassword(auth, username, password);
-                });
-                const uid = userCred.user.uid;
-                const accessLevel = snap.data().AccessLevel
-                const name = snap.data().Name;
-                document.cookie = uid+"/"+name+"/"+accessLevel+"/"+UID;
-                alert("Welcome "+accessLevel+" "+name)
-				window.location.replace("index.html");
-            } else {
-			document.getElementById("passwordError").innerHTML = "Incorrect User Credentials";
-		}
-            } catch (error) {
-                alert("incorrect User Credentials");
-            }
-            
-            
-        }
-
-        document.getElementById("loginButton").addEventListener("click", login);
+		document.getElementById("loginButton").addEventListener("click", login);
 
 
-    </script>
+	</script>
 </body>
 <footer>
 	<p>43 Castlereagh Street, PO Box 208
