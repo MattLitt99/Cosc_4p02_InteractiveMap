@@ -112,7 +112,9 @@
                 document.cookie = uid+"/"+name+"/"+accessLevel+"/"+UID;
                 alert("Welcome "+accessLevel+" "+name)
 				window.location.replace("index.html");
-            }
+            } else {
+			document.getElementById("passwordError").innerHTML = "Incorrect User Credentials";
+		}
             } catch (error) {
                 alert("incorrect User Credentials");
             }
